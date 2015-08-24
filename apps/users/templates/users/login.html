@@ -29,7 +29,7 @@
                     
                     <hr>
 
-                    <form role="form" method="POST">
+                    <!-- <form role="form" method="POST">
                         {% csrf_token %}
                         <p class="text-center">Registrate y empieza a crear y compartir tus eventos:</p>
                         <div class="form-group">
@@ -45,13 +45,13 @@
                             {{ user_register.password.errors }}
                         </div>
                         <button type="submit" name="register_form" class="btn btn-success btn-lg btn-block">Sign up</button>
-                    </form>
+                    </form>-->
                 </div><!-- col-md-6 -->
 
                 <div class="col-md-push-3 col-md-3 text-left">
                     <form role="form" method='POST'>
                         {% csrf_token %}
-                        <p class="text-center">Ingresa tus credenciales y accede al sistema web hecho en Django:</p>
+                        <p class="text-center">Ingresa tu Usuario y contraseña:</p>
                         <div class="form-group">                             
                             {{ login_form.username }}
                             {{ login_form.username.errors }}
