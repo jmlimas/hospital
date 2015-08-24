@@ -1,0 +1,20 @@
+from django.contrib import admin
+from .models import Alumno,Hospital,Cicloescolar
+from .actions import export_as_excel
+ 
+
+@admin.register(Alumno)
+class AlumnoAdmin(admin.ModelAdmin):
+	list_display = ('user','fecha','modified','fechaatencion','hospital','nombre','edad','meses','sexo','grado','escolaridad','escuela' )
+	search_fields = ('nombre','fechaatencion','escuela')
+	list_filter = ('sexo','grado','escuela','user','hospital','fechaatencion') 
+	actions = [export_as_excel] 
+
+@admin.register(Hospital)
+class HospitalAdmin(admin.ModelAdmin):
+	list_display = ('pk','nombre',)
+
+@admin.register(Cicloescolar)
+class CicloescolarAdmin(admin.ModelAdmin):
+	list_display = ('descripcion','fechaini','fechafin','status')
+ 

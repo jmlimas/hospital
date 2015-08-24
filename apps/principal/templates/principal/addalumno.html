@@ -1,0 +1,207 @@
+{% extends "principal/base_principal.html" %}
+{% block title %}Inicio{% endblock title %}
+{% block content %} 
+{% include "principal/navbar.html" %} 
+
+    <form class="form-horizontal" method="post">
+                {% csrf_token %}    
+                <div class="panel panel-primary">
+                    <!-- <div class="panel-heading">Alumnos</div>  -->
+                    <div class="panel-body">
+                        <div class="page-header">
+                        <h4>
+                            <a href="/" class="btn btn-success">
+                            <span class="glyphicon glyphicon-chevron-left"></span> Regresar
+                            </a>
+                            <strong>Alta de Alumno</strong>
+                        </h4>
+                        </div><!-- page-header -->
+                        <div class="row">
+                             
+                            <div class="col-xs-12 col-sm-6">
+                                <div class="form-group">
+                                    <label for="hospital" class="hidden-xs col-sm-2">Hospital:</label>
+                                    <div class="col-sm-10">
+                                        {{form.hospital}}
+                                        {{form.hospital.errors}}
+                                    </div>
+                                </div>  
+                                <div class="form-group">
+                                    <label for="modalidad" class="hidden-xs col-sm-2">Modalidad:</label>
+                                    <div class="col-sm-10">
+                                        {{form.modalidad}}
+                                        {{form.modalidad.errors}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nombre" class="hidden-xs col-sm-2">Nombre:</label>
+                                        <div class="col-sm-10">
+                                            {{form.nombre}}
+                                            {{form.nombre.errors}}
+                                        </div>                                     
+                                </div>  
+                                <div class="form-group">
+                                    <label for="edad" class="hidden-xs col-sm-2">Edad:</label>
+                                    <div class="col-sm-10">
+                                        {{form.edad}}
+                                        {{form.edad.errors}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="meses" class="hidden-xs col-sm-2">Meses:</label>
+                                    <div class="col-sm-10">
+                                        {{form.meses}}
+                                        {{form.meses.errors}}
+                                    </div>
+                                </div>   
+                                <div class="form-group">
+                                    <label for="sexo" class="hidden-xs col-sm-2">Sexo:</label>
+                                    <div class="col-sm-10">
+                                         {{form.sexo}}
+                                        {{form.sexo.errors}}
+                                    </div>
+                                </div> 
+                                <div class="form-group">
+                                    <label for="coloniaal" class="hidden-xs col-sm-2">Colonia Alumno:</label>
+                                    <div class="col-sm-10">
+                                         {{form.coloniaal}}
+                                        {{form.coloniaal.errors}}
+                                    </div>
+                                </div>   
+                                <div class="form-group">
+                                    <label for="callenumal" class="hidden-xs col-sm-2">Callen Alumno:</label>
+                                    <div class="col-sm-10">
+                                         {{form.callenumal}}
+                                        {{form.callenumal.errors}}
+                                    </div>
+                                </div>     
+                                <div class="form-group">
+                                    <label for="localidadal" class="hidden-xs col-sm-2">Localida Alumno:</label>
+                                    <div class="col-sm-10">
+                                         {{form.localidadal}}
+                                        {{form.localidadal.errors}}
+                                    </div>
+                                </div> 
+                                <div class="form-group">
+                                    <label for="discapacidad" class="hidden-xs col-sm-2">Discapacidad:</label>
+                                    <div class="col-sm-10">
+                                        {{form.discapacidad}}
+                                        {{form.discapacidad.errors}}
+                                    </div>
+                                </div>   
+                                <div class="form-group">
+                                    <label for="escolaridad" class="hidden-xs col-sm-2">Escolaridad:</label>
+                                    <div class="col-sm-10">
+                                        {{form.escolaridad}}
+                                        {{form.escolaridad.errors}}
+                                    </div>
+                                </div>         
+                                 
+                            </div>
+ 
+                            <div class="col-xs-12 col-sm-6">                               
+
+                                <div class="form-group">
+                                    <label for="grado" class="hidden-xs col-sm-2">Grado:</label>
+                                    <div class="col-sm-10">
+                                        {{form.grado}}
+                                        {{form.grado.errors}}
+                                    </div>
+                                </div>                                
+                                <div class="form-group">
+                                    <label for="escuela" class="hidden-xs col-sm-2">Escuela:</label>
+                                    <div class="col-sm-10">
+                                        {{form.escuela}}
+                                        {{form.escuela.errors}}
+                                    </div>
+                                </div> 
+                                <div class="form-group">
+                                    <label for="coloniaesc" class="hidden-xs col-sm-2">Colonia:</label>
+                                    <div class="col-sm-10">
+                                        {{form.coloniaesc}}
+                                        {{form.coloniaesc.errors}}
+                                    </div>
+                                </div> 
+                                <div class="form-group">
+                                    <label for="direccionesc" class="hidden-xs col-sm-2">Direccion:</label>
+                                    <div class="col-sm-10">
+                                        {{form.direccionesc}}
+                                        {{form.direccionesc.errors}}
+                                    </div>
+                                </div>   
+                                <div class="form-group">
+                                    <label for="localidadesc" class="hidden-xs col-sm-2">Localidad:</label>
+                                    <div class="col-sm-10">
+                                        {{form.localidadesc}}
+                                        {{form.localidadesc.errors}}
+                                    </div>
+                                </div>                                  
+                                <div class="form-group">
+                                    <label for="especialidad" class="hidden-xs col-sm-2">Especialidad:</label>
+                                    <div class="col-sm-10">
+                                        {{form.especialidad}}
+                                        {{form.especialidad.errors}}
+                                    </div>
+                                </div>  
+                                <div class="form-group">
+                                    <label for="diagnostico" class="hidden-xs col-sm-2">Diagnostico:</label>
+                                    <div class="col-sm-10">
+                                        {{form.diagnostico}}
+                                        {{form.diagnostico.errors}}
+                                    </div>
+                                </div>  
+                                <div class="form-group">
+                                    <label for="tema" class="hidden-xs col-sm-2">Tema:</label>
+                                    <div class="col-sm-10">
+                                        {{form.tema}}
+                                        {{form.tema.errors}}
+                                    </div>
+                                </div>  
+                                <div class="form-group">
+                                    <label for="fechaatencion" class="hidden-xs col-sm-2">Fecha Atencion:</label>
+                                    <div class="col-sm-10">
+                                        {{form.fechaatencion}}
+                                        {{form.fechaatencion.errors}}
+                                    </div>
+                                </div>  
+                                <div class="form-group">
+                                    <label for="horainicio" class="hidden-xs col-sm-2">Hora Inicio:</label>
+                                    <div class="col-sm-10">
+                                        {{form.horainicio}}
+                                        {{form.horainicio.errors}}
+                                    </div>
+                                </div>  
+                                <div class="form-group">
+                                    <label for="horafin" class="hidden-xs col-sm-2">Hora Fin:</label>
+                                    <div class="col-sm-10">
+                                        {{form.horafin}}
+                                        {{form.horafin.errors}}
+                                    </div>
+                                </div>  
+                                <div class="form-group">
+                                    <label for="observacion" class="hidden-xs col-sm-2">Observacion:</label>
+                                    <div class="col-sm-10">
+                                        {{form.observacion}}
+                                        {{form.observacion.errors}}
+                                    </div>
+                                </div>  
+                                   
+                        
+
+                            </div> <!-- class="col-xs-12 col-sm-6" -->                           
+                        </div> <!--<div class="row"> -->
+                        
+
+                        <div class="panel-footer color-footer">
+                            <button type="submit" class="btn btn-primary">
+                                 Grabar
+                            </button>
+                        </div>
+ 
+
+                    </div>
+                </div>
+            </form>
+{%endblock%}
+  
+

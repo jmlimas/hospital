@@ -1,0 +1,311 @@
+{% extends "principal/base_principal.html" %}
+{% block title %}Inicio{% endblock title %}
+
+{% block content %}
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button> 
+            <a class="navbar-brand"  href="{% url 'principal_app:index' %}">Parepe Laguna</a>
+        </div>
+
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Operaciones 
+                        <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/addalumno">Nueva Alumno</a></li>
+                                <li><a href="/">Operador</a></li>
+                                <li><a href="/">Empresas</a></li> 
+                                <li><a href="/">Equipos</a></li>
+                            </ul>
+                    </li>  
+                </ul>        
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav pull-right">
+                            {% if user.is_authenticated %}                               
+                                <li><a href="{% url 'principal_app:index' %}">Hola 
+                                    {{user.username|capfirst}}</a></li>
+                                    <li><a href="{% url 'users_app:logout' %}">Cerrar</a></li>
+                            {% else %}                           
+                                <li><a href="{%  url 'users_app:login' %}">Login</a></li>
+                                <li><a href="{% url 'users_app:logout' %}">Cerrar</a></li>
+                            {% endif %}                       
+                        </ul>
+                    </div><!--/.nav-collapse -->
+
+    </div><!--/.class="container"> -->       
+</div> <!--class="navbar navbar-default navbar-fixed-top" role="navigation"> -->
+
+<div class="jumbotron">
+  <div class="container text-center">
+    <h1>Parepe Laguna</h1>
+  </div>
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-info alert-dismissable">
+                <h3 class="panel-title"><strong>Tablero de actividades</strong></h3>
+            </div>
+        </div>
+    </div> <!-- /.row -->
+    
+    <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-primary">
+                             <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                       <span class="glyphicon glyphicon-thumbs-up app"></span>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{solohoy_g}}</div>
+                                        <div>Atenciones Gomez Hoy.!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="/listhoy">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Ver Detalles</span>
+                                    <span class="pull-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                       <span class="glyphicon glyphicon-header app">
+                                           <i class="fa fa-fw fa-money"></i>
+                                       </span>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">{{solohoy_l}}</div>
+                                        <div>Atencion Lerdo.!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="/listhoyl">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Ver Detalles</span>
+                                    <span class="pull-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <span class="glyphicon glyphicon-bell app"></span>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">????</div>
+                                        <div>Por Definir por MiTony !</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="/search">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Ver Detalles</span>
+                                    <span class="pull-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-red">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <span class="glyphicon glyphicon-user app"></span>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">????</div>
+                                        <div>Por Definir,por la Patrona!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+    </div> <!-- /.row -->
+     
+     
+
+
+ 
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">                   
+                    <h3 class="panel-title"><i class="glyphicon glyphicon-stats"></i> Acumulados  Gomez Palacio</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a href="/lispreeg" class="list-group-item">
+                            <span class="badge">{{pre_g}}</span>
+                             Alumnos de preescolar
+                        </a>
+                        <a href="/lisPrimg" class="list-group-item">
+                            <span class="badge">{{prim_g}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Alumnos de primaria
+                        </a>
+                        <a href="/listsecg" class="list-group-item">
+                            <span class="badge">{{sec_g}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Alumnos de secundaria
+                        </a>                         
+                        <a href="/listnoesyedadg" class="list-group-item">
+                            <span class="badge">{{ne_g}}</span>
+                            <i class="fa fa-fw fa-comment"></i> No estudia y tiene edad escolar
+                        </a>
+                        <a href="/lisdisg" class="list-group-item">
+                            <span class="badge">{{disc_g}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Discapacidad
+                        </a>
+                        <a href="/listalumbachg" class="list-group-item">
+                            <span class="badge">{{bach_g}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Bachillerato
+                        </a>
+                        <a href="/listsinedadg" class="list-group-item">
+                            <span class="badge">{{sinedadesc_g}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Sin edad escolar
+                        </a>                        
+                    </div>
+                    <div class="text-right">
+                        <a href="#">Ver actividades <i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="glyphicon glyphicon-signal"></i> Acumulados de Lerdo</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a href="lispreel" class="list-group-item">
+                            <span class="badge">{{pre_l}}</span>
+                             Alumnos de preescolar
+                        </a>
+                        <a href="lisPriml" class="list-group-item">
+                            <span class="badge">{{prim_l}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Alumnos de primaria
+                        </a>
+                        <a href="listsecl" class="list-group-item">
+                            <span class="badge">{{sec_l}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Alumnos de secundaria
+                        </a>                         
+                        <a href="listnoesyedadl" class="list-group-item">
+                            <span class="badge">{{ne_l}}</span>
+                            <i class="fa fa-fw fa-comment"></i> No estudia y tiene edad escolar
+                        </a>
+                        <a href="/lisdisl" class="list-group-item">
+                            <span class="badge">{{disc_l}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Discapacidad
+                        </a>
+                        <a href="/listalumbachl" class="list-group-item">
+                            <span class="badge">{{bach_l}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Bachillerato
+                        </a>
+                        <a href="listsinedadl" class="list-group-item">
+                            <span class="badge">{{sinedadesc_l}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Sin edad escolar
+                        </a>                        
+                    </div>
+                    <div class="text-right">
+                        <a href="#">Ver actividades <i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="glyphicon glyphicon-signal"></i> Atencion Psicologica</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item">
+                            <span class="badge">{{pre}}</span>
+                            <i class="fa fa-fw fa-calendar"></i> Alumnos de preescolar
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="badge">{{primaria}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Alumnos de primaria
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="badge">{{sec}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Alumnos de secundaria
+                        </a>                         
+                        <a href="#" class="list-group-item">
+                            <span class="badge">{{ne}}</span>
+                            <i class="fa fa-fw fa-comment"></i> No estudia y tiene edad escolar
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="badge">{{discapacidad}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Discapacidad
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="badge">{{bachiller}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Bachillerato
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="badge">{{sinedadescolar}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Sin edad escolar
+                        </a>                        
+                    </div>
+                    <div class="text-right">
+                        <a href="#">Ver actividades <i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /.row -->
+
+        <div class="container eventos">  
+            <div class="row contenedor-eventos">
+              {% for a  in alum %}
+                <div class="col-sm-1 col-md-3">
+                    <div class="thumbnail">
+                        <img src="#" alt="250x180">
+                        <div class="caption">
+                            <h4><a href="">Ultimos 3 alumos captrados</a></h4>
+                            <small class="date">{{a.nombre}}</small>
+                            <div class="place">
+                                <small class="place"> {{a.escuela}}</small> / 
+                            </div>
+                            <span class="views"> {{a.procedencia}}</span>
+                        </div>
+                    </div>
+                </div>
+             {% endfor %}                
+            </div>
+        </div>
+
+</div> <!-- /.container -->
+
+	
+{% endblock content %}
+

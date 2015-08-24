@@ -1,0 +1,11 @@
+Django==1.8.3
+Pillow==2.9.0
+Unipath==1.1
+argparse==1.2.1
+django-braces==1.8.1
+django-datetime-widget==0.9.3
+django-suit==0.2.13
+pytz==2015.4
+six==1.9.0
+tablib==0.10.0
+wsgiref==0.1.2

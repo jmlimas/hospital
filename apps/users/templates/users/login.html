@@ -1,0 +1,73 @@
+{% extends "principal/base_principal.html" %}
+
+{% block title %}Sign-up / Login{% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="row">
+            
+            <div class="col-md-12">
+
+                <h1 class="text-center">Sign Up / Login</h1>
+                <p>&nbsp;</p>
+
+            </div><!-- col-md-12 -->
+
+        </div><!-- /row -->
+
+        <div class="row">
+            
+            <div class=" col-md-12 text-center">
+
+                <div class="col-md-push-3 col-md-3 text-center line">
+                    <p>
+                        <a href="#" class="btn btn-primary btn-lg btn-block">Regitrate con Facebook</a>
+                        <a href="#" class="btn btn-danger btn-lg btn-block">Regitrate con Google+</a>
+                    </p>
+                    
+                    <hr>
+
+                    <form role="form" method="POST">
+                        {% csrf_token %}
+                        <p class="text-center">Registrate y empieza a crear y compartir tus eventos:</p>
+                        <div class="form-group">
+                            {{ user_register.username }}
+                            {{ user_register.username.errors }}
+                        </div>
+                        <div class="form-group">
+                            {{ user_register.email }}
+                            {{ user_register.email.errors }}
+                        </div>
+                        <div class="form-group">
+                            {{ user_register.password }}
+                            {{ user_register.password.errors }}
+                        </div>
+                        <button type="submit" name="register_form" class="btn btn-success btn-lg btn-block">Sign up</button>
+                    </form>
+                </div><!-- col-md-6 -->
+
+                <div class="col-md-push-3 col-md-3 text-left">
+                    <form role="form" method='POST'>
+                        {% csrf_token %}
+                        <p class="text-center">Ingresa tus credenciales y accede al sistema web hecho en Django:</p>
+                        <div class="form-group">                             
+                            {{ login_form.username }}
+                            {{ login_form.username.errors }}
+                        </div>
+                        <div class="form-group">
+                            {{ login_form.password }}
+                            {{ login_form.password.errors }}
+                        </div>
+                        <button type="submit" name="login_form" class="btn btn-success btn-lg btn-block">Log in</button>
+                    </form>
+                </div><!-- col-md-6 -->
+
+            </div><!-- col-md-12 -->
+
+        </div><!-- /row -->
+
+    </div><!-- /container -->
+
+{% endblock content %}

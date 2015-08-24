@@ -1,0 +1,32 @@
+
+.jumbotron {
+    margin-bottom: 2px;
+}
+
+.page-header {
+    margin: 10px 0 10px !important;
+    font-weight: bolder;    
+}
+
+.eventos,
+.categorias,
+.organizadores {
+    margin-bottom: 10px;
+}
+
+.contenedor-eventos {
+    margin-top: 5px;
+}
+
+@media screen and (max-width: 480px) {
+    .categorias .btn-fix {
+        margin-top: 7px;
+    }
+    .categorias .row {
+        text-align: center;
+    }
+    .categorias a {
+        display: block;
+    }
+}
+ 
