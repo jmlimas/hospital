@@ -44,7 +44,7 @@ class Alumno(TimeStampModel):
 
     Op2 = (
         ('Si', 'Si'),
-        ('No', 'No')
+        ('No', 'No'),
         )
 
     opesc=(
@@ -69,14 +69,15 @@ class Alumno(TimeStampModel):
             ('ConsultaExt','Consulta Externa'),
             ('AtencionDom','Atencion Domiciliaria'),
         )
+    
     at = (
-            ('Pedagogía','Pedagogía'),
-            ('Psicología','Psicología')
+            ('Pedagogia','Pedagogia'),
+            ('Psicologia','Psicologia'),
         )
 
     folio = models.IntegerField()
     hospital = models.ForeignKey('Hospital') 
-    atencion = models.CharField(max_length=30,null=True,blank=True,choices=at)  
+    atencion = models.CharField(max_length=10,null=True,blank=True,choices=at)  
     ciclo = models.ForeignKey('Cicloescolar',default=1)
     modalidad = models.CharField(max_length=25,null=True,default=True,choices=tp)
     nombre = models.CharField(max_length=180)

@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^listnoesyedadl/$',views.ListaAlumNoestytiedadl.as_view(),name='list_secler'),
     url(r'^listalumbachl/$',views.ListaAlumbachl.as_view(),name='list_bachler'),
     url(r'^listsinedadl/$',views.ListaSinEdadl.as_view(),name='list_sinedadler'),
+    url(r'^dona/$',views.dona.as_view(),name='gra_dona'),
 
     
 

@@ -4,6 +4,7 @@ from braces.views import LoginRequiredMixin,GroupRequiredMixin
 from .models import Alumno,Cicloescolar
 from .forms  import AddAlumnoForm 
 from django.shortcuts import get_object_or_404 
+from django.db.models import Count
 
 from datetime import date 
 from django.db.models import Q
@@ -344,3 +345,13 @@ class SerchAlumnoView(LoginRequiredMixin,GroupRequiredMixin,ListView):
 		        Q(nombre__icontains=q) 
 		    )		
 		return queryset
+
+class dona(TemplateView):
+	template_name = 'principal/dona.html'	
+
+
+	def get_context_data(self, **kwargs):
+		context = super(dona, self).get_context_data(**kwargs)
+		context['esco'] = Alumno.objects.all().values('escolaridad').annotate(total=Count('escolaridad')).order_by('total')
+		print context['esco'] 
+		return context
