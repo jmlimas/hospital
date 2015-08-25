@@ -13,7 +13,7 @@
                             <a href="/" class="btn btn-success">
                             <span class="glyphicon glyphicon-chevron-left"></span> Regresar
                             </a>
-                            <strong>Alta de Alumno</strong>
+                            <strong>Nuevo Alumno</strong>
                         </h4>
                         </div><!-- page-header -->
                         <div class="row">
@@ -24,6 +24,13 @@
                                     <div class="col-sm-10">
                                         {{form.hospital}}
                                         {{form.hospital.errors}}
+                                    </div>
+                                </div>  
+                                <div class="form-group">
+                                    <label for="atencion" class="hidden-xs col-sm-2">Atencion:</label>
+                                    <div class="col-sm-10">
+                                        {{form.atencion}}
+                                        {{form.atencion.errors}}
                                     </div>
                                 </div>  
                                 <div class="form-group">
@@ -69,14 +76,14 @@
                                     </div>
                                 </div>   
                                 <div class="form-group">
-                                    <label for="callenumal" class="hidden-xs col-sm-2">Callen Alumno:</label>
+                                    <label for="callenumal" class="hidden-xs col-sm-2">Calle Alumno:</label>
                                     <div class="col-sm-10">
                                          {{form.callenumal}}
                                         {{form.callenumal.errors}}
                                     </div>
                                 </div>     
                                 <div class="form-group">
-                                    <label for="localidadal" class="hidden-xs col-sm-2">Localida Alumno:</label>
+                                    <label for="localidadal" class="hidden-xs col-sm-2">Localidad Alumno:</label>
                                     <div class="col-sm-10">
                                          {{form.localidadal}}
                                         {{form.localidadal.errors}}

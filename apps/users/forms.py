@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django import forms
 from .models import User
 
@@ -37,5 +38,5 @@ class LoginForm(forms.Form):
 	 			widget = forms.TextInput(attrs = {
 	 				'type' : 'password',
 	 				'class' : 'form-control',
-	 				'placeholder' : 'Ingresa un password'
+	 				'placeholder' : 'Ingresa su contraseña'
 	 				}))

@@ -7,7 +7,7 @@ class AddAlumnoForm(forms.ModelForm):
 		model = Alumno
 		exclude = ['ciclo','folio','user',] 
 		widgets = {
-                'observacion': forms.Textarea(attrs={'placeholder':'observacion','rows':'4','cols': '60'}),
+                'observacion': forms.Textarea(attrs={'placeholder':'observacion','rows':'4','cols': '40'}),
                 'nombre': forms.TextInput(attrs={'placeholder':'Nombre Alumno','size': '40'}),
                 'escuela': forms.TextInput(attrs={'placeholder':'Nombre de escuela','size': '40'}),
                 'edad': forms.NumberInput(attrs={'placeholder':'Edad','min': '0', 'max': '19'}),

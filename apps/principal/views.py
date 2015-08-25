@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.views.generic import  TemplateView,FormView,ListView,UpdateView 
 from braces.views import LoginRequiredMixin,GroupRequiredMixin
 from .models import Alumno,Cicloescolar
@@ -27,7 +28,16 @@ class IndexView(TemplateView):
 		context['bach_g'] = Alumno.objects.filter(escolaridad='Bachillerato',hospital=1,ciclo__status=True).count()
 		context['sinedadesc_g'] = Alumno.objects.filter(escolaridad='No Tiene Edad escolar',hospital=1,ciclo__status=True).count()
 		context['solohoy_g'] = Alumno.objects.filter(fecha__year=today.year,fecha__month=today.month,fecha__day=today.day,hospital=1).count()
-		#Lerdo
+		context['pedhoy_g'] = Alumno.objects.filter(fecha__year=today.year,
+			fecha__month=today.month,fecha__day=today.day,hospital=1,modalidad='Pediatria').count()
+		context['exthoy_g'] = Alumno.objects.filter(fecha__year=today.year,
+			fecha__month=today.month,fecha__day=today.day,hospital=1,modalidad='ConsultaExt').count()
+		context['domhoy_g'] = Alumno.objects.filter(fecha__year=today.year,
+			fecha__month=today.month,fecha__day=today.day,hospital=1,modalidad='AtencionDom').count()
+		context['pedhoy_l'] = Alumno.objects.filter(fecha__year=today.year,
+			fecha__month=today.month,fecha__day=today.day,hospital=2,modalidad='Pediatria').count()
+		context['exthoy_l'] = Alumno.objects.filter(fecha__year=today.year,
+			fecha__month=today.month,fecha__day=today.day,hospital=2,modalidad='ConsultaExt').count()		
 		context['pre_l'] = Alumno.objects.filter(escolaridad='Preescolar',fecha__year=today.year,fecha__month=today.month,hospital=2).count()
 		context['prim_l'] = Alumno.objects.filter(escolaridad='Primaria',fecha__year=today.year,fecha__month=today.month,hospital=2).count()
 		context['sec_l'] = Alumno.objects.filter(escolaridad='Secundaria',fecha__year=today.year,fecha__month=today.month,hospital=2).count()
@@ -301,11 +311,11 @@ class ListaSinEdadl(LoginRequiredMixin,GroupRequiredMixin,ListView): # Sin Edad 
 
  
 
-class UpdateAlumno(LoginRequiredMixin,UpdateView):
+class UpdateAlumno(UpdateView):
 	template_name = 'principal/addalumno.html'
 	model = Alumno
 	form_class = AddAlumnoForm
-	success_url = reverse_lazy('principal:list_hoy')
+	success_url = reverse_lazy('principal_app:list_hoy')
 
 	def form_valid(self, form):
 		form.instance.user = self.request.user

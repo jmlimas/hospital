@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).ancestor(2)
 SECRET_KEY = '#v2r)=$_kr36h7ue%rh@$*pju5j3uiug%o$63-%z3pe30&00i*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition

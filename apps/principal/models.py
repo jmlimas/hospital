@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models 
 from django.conf import settings
  
@@ -68,9 +69,14 @@ class Alumno(TimeStampModel):
             ('ConsultaExt','Consulta Externa'),
             ('AtencionDom','Atencion Domiciliaria'),
         )
+    at = (
+            ('Pedagogía','Pedagogía'),
+            ('Psicología','Psicología')
+        )
 
     folio = models.IntegerField()
-    hospital = models.ForeignKey('Hospital')   
+    hospital = models.ForeignKey('Hospital') 
+    atencion = models.CharField(max_length=30,null=True,blank=True,choices=at)  
     ciclo = models.ForeignKey('Cicloescolar',default=1)
     modalidad = models.CharField(max_length=25,null=True,default=True,choices=tp)
     nombre = models.CharField(max_length=180)

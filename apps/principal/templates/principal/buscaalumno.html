@@ -4,8 +4,17 @@
 {% include "principal/navbar.html" %} 
 <div class="container">
         <div class="page-header">
-            <br>
-            <br>
+             <h4> 
+                <br>
+
+           <a href="/" class="btn btn-success">
+                            <span class="glyphicon glyphicon-chevron-left"></span> Regresar
+            </a>             
+            <a class="btn btn-primary pull-right" href="/addalumno">
+                    <span class="glyphicon glyphicon-plus"></span> Nueva Alumno
+                </a>
+          </h4>
+           <br>
             <form action= "." method="GET">
                  <label for="q">Buscar</label>
                  <input id="aut" name = "q" autofocus type="search" placeholder="nombre alumno" value="{% if q %}{{ q }}{% else %}{% endif %}" >
