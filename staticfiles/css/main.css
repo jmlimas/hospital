@@ -1,0 +1,16 @@
+ body
+{
+	background:#FAFCFD;
+	color: BLACK;
+	font-family: "Open Sans",serifa;
+	font-size: 13px;
+	text-align: left;
+	padding-top: 52px;
+}
+
+.busqueda {
+	float: right;
+	margin-top: -3px;
+	margin-bottom: 2px;
+}
+ 

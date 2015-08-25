@@ -125,4 +125,5 @@ SUIT_CONFIG = {
 }
 
 
+STATIC_ROOT = 'staticfiles'    
 AUTH_USER_MODEL = 'users.User'
