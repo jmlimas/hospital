@@ -279,6 +279,7 @@ class ListaAlumNoestytiedadl(LoginRequiredMixin,GroupRequiredMixin,ListView): # 
 		context['hospital'] = "Concentrado de Alumnos que No estudia y tiene edad escalar Lerdo"		 
 		return context
 
+
 class ListaAlumbachl(LoginRequiredMixin,GroupRequiredMixin,ListView): # Bachillerato lerdo Acumulado
 	context_object_name = 'alumnos'
 	template_name = 'principal/alumnosxx.html'
@@ -314,12 +315,13 @@ class UpdateAlumno(UpdateView):
 	template_name = 'principal/addalumno.html'
 	model = Alumno
 	form_class = AddAlumnoForm
-	success_url = reverse_lazy('principal_app:list_hoy')
+	success_url = reverse_lazy('principal_app:index')
 
 	def form_valid(self, form):
 		form.instance.user = self.request.user
 		return super(UpdateAlumno, self).form_valid(form)
  
+
 
 class SerchAlumnoView(LoginRequiredMixin,GroupRequiredMixin,ListView):
 	model = Alumno
@@ -343,6 +345,8 @@ class SerchAlumnoView(LoginRequiredMixin,GroupRequiredMixin,ListView):
 		        Q(nombre__icontains=q) 
 		    )		
 		return queryset
+
+
 
 class dona(TemplateView):
 	template_name = 'principal/dona.html'	
