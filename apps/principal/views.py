@@ -349,7 +349,6 @@ class SerchAlumnoView(LoginRequiredMixin,GroupRequiredMixin,ListView):
 class dona(TemplateView):
 	template_name = 'principal/dona.html'	
 
-
 	def get_context_data(self, **kwargs):
 		context = super(dona, self).get_context_data(**kwargs)
 		context['esco'] = Alumno.objects.all().values('escolaridad').annotate(total=Count('escolaridad')).order_by('total')

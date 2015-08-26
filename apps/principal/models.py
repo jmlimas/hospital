@@ -54,6 +54,10 @@ class Alumno(TimeStampModel):
         ('No Estudia y tiene edad escolar',  'No Estudia y tiene edad escolar'),      
         ('Bachillerato', 'Bachillerato'),
         ('No Tiene Edad escolar',  'No Tiene Edad escolar'),
+        ('Cam', 'Cam'),
+        ('Cil', 'Cil'),
+
+
         )
     Disca=(
         ('No', 'No'),
