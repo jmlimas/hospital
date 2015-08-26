@@ -22,7 +22,7 @@
                                     {{user.username|capfirst}}</a></li>
                                     <li><a href="{% url 'users_app:logout' %}">Cerrar</a></li>
                             {% else %}                           
-                                <li><a href="{%  url 'users_app:login' %}">Login</a></li>
+                                <li><a href="{%  url 'users_app:login' %}">Entrar</a></li>
                                 <li><a href="{% url 'users_app:logout' %}">Cerrar</a></li>
                             {% endif %}                       
                         </ul>

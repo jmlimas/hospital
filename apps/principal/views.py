@@ -16,7 +16,6 @@ class IndexView(TemplateView):
 
 	def get_context_data(self, **kwargs):
 		today = date.today()	
-		print today 
 		context = super(IndexView,self).get_context_data(**kwargs)
 		#context['alum3'] = Alumno.objects.all().order_by('-fecha')[:3]
 		#Gomez
@@ -66,8 +65,7 @@ class AddAlumnoViews(LoginRequiredMixin,FormView):
 		form.save()
  		return super(AddAlumnoViews, self).form_valid(form)
 
- 	def form_invalid(self,form):
- 		print 'NO'
+ 	def form_invalid(self,form): 		
  		return super(AddAlumnoViews,self).form_invalid(form)
 
 
@@ -337,7 +335,7 @@ class SerchAlumnoView(LoginRequiredMixin,GroupRequiredMixin,ListView):
 			queryset = ""
 			
 		q = self.request.GET.get('q', '') 
-		print "sesta es el valor de :" +q
+		#print "sesta es el valor de :" +q
 				
 		if q:
 		    queryset = queryset.filter(
@@ -352,5 +350,5 @@ class dona(TemplateView):
 	def get_context_data(self, **kwargs):
 		context = super(dona, self).get_context_data(**kwargs)
 		context['esco'] = Alumno.objects.all().values('escolaridad').annotate(total=Count('escolaridad')).order_by('total')
-		print context['esco'] 
+		#print context['esco'] 
 		return context
