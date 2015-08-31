@@ -6,6 +6,7 @@ from django.conf import settings
 
 class TimeStampModel(models.Model):
     user     = models.ForeignKey(settings.AUTH_USER_MODEL,null=True,blank=True)
+    #user     = models.ForeignKey(User)
     fecha    = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True) 
 
@@ -25,13 +26,19 @@ class Cicloescolar(TimeStampModel):
 
 class Hospital(TimeStampModel):
     nombre = models.CharField(max_length=60)
-    
+    usuarios = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name= 'hospital_user')
+   # usuarios = models.ManyToManyField(User,related_name= 'hospital_user')
     
     def __unicode__(self):
         return self.nombre
 
+    def get_usuarios(self):
+        return "\n".join([u.username for u in self.usuarios.all()])
+
     class Meta:
         ordering = ["pk"]
+
+
 
 
 # Create your models here.
@@ -106,7 +113,6 @@ class Alumno(TimeStampModel):
     tema = models.CharField(max_length=80)
     observacion = models.TextField()
     
-
     def __unicode__(self):
         return self.nombre   
 
@@ -118,6 +124,9 @@ class Escuela(TimeStampModel):
 
 	def __unicode__(self):
 		return self.nombre
+
+
+ 
 
 
 

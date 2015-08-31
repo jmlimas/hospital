@@ -1,37 +1,27 @@
-{% extends "principal/base_principal.html" %}
-{% block title %}Inicio{% endblock title %}
-{% block content %} 
-    {% include "principal/navbar.html" %} 
-     <form class="form-horizontal" method="post">
-                {% csrf_token %}    
-                <div class="panel panel-primary">
-                    <!-- <div class="panel-heading">Alumnos</div>  -->
-                    <div class="panel-body">
-                        <div class="page-header">
-                        <h3>
-                            <a href="/" class="btn btn-success">
-                            <span class="glyphicon glyphicon-chevron-left"></span> Regresar
-                            </a>
-                            <strong>Alta de Alumno</strong>
-                        </h3>
-                        </div><!-- page-header -->
-                        <div class="row">
-                            {{form.as_p}}
-
-                            </div> <!-- class="col-xs-12 col-sm-6" -->                           
-                        </div> <!--<div class="row"> -->
-                        
-
-                        <div class="panel-footer color-footer">
-                            <button type="submit" class="btn btn-primary">
-                                 Grabar
-                            </button>
-                        </div>
- 
-
-                    </div>
-               
-            </form>
-{%endblock%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    {% load static from staticfiles %}
   
+    <link rel="stylesheet" href="{% static 'js/vendor/jquery-ui.css' %}"> 
+    <script src="{% static 'js/vendor/jquery.js' %}"></script> 
+    <script src="{% static 'js/vendor/jquery-ui.js' %}"></script>
+    <script src="{% static 'js/vendor/jquery-datepicker-es.js' %}"></script>
 
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}     
+    </form>    
+
+
+<script>
+    $('#id_fechaatencion').datepicker({ autoSize: true });
+</script>
+
+</body>
+</html>

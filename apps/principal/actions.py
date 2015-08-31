@@ -12,7 +12,7 @@ def export_as_excel(modeladmin, request, queryset):
     response['Content-Disposition'] = 'attachment; filename=%s.xls' % unicode(opts).replace('.', '_')
     
     try:
-        field_names = ['folio','hospital__nombre','modalidad','nombre','edad','meses','sexo','coloniaal','callenumal','localidadal','discapacidad','grado','escolaridad','escuela','coloniaesc','direccionesc','localidadesc','especialidad','diagnostico','fechaatencion','horainicio','horafin','tema','observacion']
+        field_names = ['folio','hospital__nombre','modalidad','atencion','nombre','edad','meses','sexo','coloniaal','callenumal','localidadal','discapacidad','grado','escolaridad','escuela','coloniaesc','direccionesc','localidadesc','especialidad','diagnostico','fechaatencion','horainicio','horafin','tema','observacion']
         v_field_names = field_names
     except:
         field_names = [field.name for field in opts.fields]
@@ -47,3 +47,5 @@ def export_as_excel(modeladmin, request, queryset):
     return response
 
 export_as_excel.short_description = "Exportar como Excel" 
+
+

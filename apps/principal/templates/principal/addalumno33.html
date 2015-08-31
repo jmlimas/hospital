@@ -1,0 +1,18 @@
+{% extends "principal/base_principal.html" %}
+{% block title %}Inicio{% endblock title %}
+{% block content %} 
+
+    {% include "principal/navbar.html" %} 
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}     
+    </form>    
+
+
+<script>
+    $('#id_fechaatencion').datepicker({ autoSize: true });
+</script>
+
+
+ 
+{% endblock content %}

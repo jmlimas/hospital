@@ -33,3 +33,5 @@ def LogOut(request):
 	logout(request)
 	return redirect('/')
 
+
+

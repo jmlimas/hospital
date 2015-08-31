@@ -1,5 +1,5 @@
 body {
-    margin-top: 60px;
+    margin-top: 10px;
 }
 
 .jumbotron {
@@ -33,3 +33,7 @@ body {
     }
 }
  
+
+.row {
+     font-size: 13px;
+}

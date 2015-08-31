@@ -1,7 +1,7 @@
 {% extends "principal/base_principal.html" %}
 {% block title %}Inicio{% endblock title %}
 {% block content %} 
-{% include "principal/navbar.html" %} 
+    {% include "principal/navbar.html" %} 
 
 <div class="container">
         <div class="page-header">
@@ -12,7 +12,7 @@
                     <span class="glyphicon glyphicon-chevron-left"></span> Regresar
                 </a>             
                 <a class="btn btn-primary pull-right" href="/addalumno">
-                    <span class="glyphicon glyphicon-plus"></span> Nueva Alumno
+                    <span class="glyphicon glyphicon-plus"></span> Nuevo Alumno
                 </a>
             </h4>
         </div><!-- page-header -->
@@ -22,7 +22,9 @@
                 <table class="table table-striped table-hover">
                 <thead>
                     <tr>
+                        <th>Folio</th>
                         <th>Modalidad</th>
+                        <th>Atencion</th>
                         <th>Alumno</th>
                         <th>Edad Meses</th>
                         <th>Sexo</th>
@@ -30,6 +32,7 @@
                         <th>Escolaridad Grado</th>
                         <th>Escuela</th>
                         <th>FechaAtencion</th>
+                        <th>User</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -40,9 +43,15 @@
                         
                         {%for a in alumnos%}
                         <tr>
+                            <td>
+                                 <small>{{a.folio}}</small>
+                            </td>  
                              <td>
                                  <small>{{a.modalidad}}</small>
-                            </td>            
+                            </td> 
+                            <td>
+                                <small>{{a.atencion}}</small>
+                            </td>           
                             <td>
                                 <small>{{a.nombre}}</small>
                             </td>
@@ -65,10 +74,13 @@
                                 <small>{{a.fechaatencion|date:"M d, Y"}}</small>
                             </td>
                             <td>
+                                <small>{{a.user }}</small>
+                            </td>
+                            <td>
                                 <td class="text-right">
-                                <a href="#" class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                
                                 <a href="{% url 'principal_app:alumno_update' a.id %}"  class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></a>
-                                <a href="#" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                                 
                             </td>                        
                         </tr>
                         {%endfor%} 
@@ -78,4 +90,4 @@
         </div><!-- /row -->
     </div><!-- /container -->
       
-{%endblock%} 
+{% endblock content %}

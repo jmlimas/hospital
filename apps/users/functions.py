@@ -6,4 +6,3 @@ def LogIn(request, username, password):
 		if user is not None:
 			if user.is_active:
 				login(request, user)
-			

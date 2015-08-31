@@ -1,3 +1,4 @@
+
 from django.conf.urls import url
 from . import views 
 
@@ -23,12 +24,24 @@ urlpatterns = [
     url(r'^listsecl/$',views.ListaAlumnosSecl.as_view(),name='list_secler'),
     url(r'^listnoesyedadl/$',views.ListaAlumNoestytiedadl.as_view(),name='list_secler'),
     url(r'^listalumbachl/$',views.ListaAlumbachl.as_view(),name='list_bachler'),
-    url(r'^listsinedadl/$',views.ListaSinEdadl.as_view(),name='list_sinedadler'),
-    url(r'^dona/$',views.dona.as_view(),name='gra_dona'),
+    url(r'^listsinedadl/$',views.ListaSinEdadl.as_view(),name='list_sinedadler'),    
 
+    url(r'^listPischoy/$',views.ListaAlumPishoy.as_view(),name='lis_piscohoy'),
+    url(r'^lisdisp/$',views.ListaAlumnosDiscap.as_view(),name='list_disclep'),
+    url(r'^lisPrimp/$',views.ListaAlumnosPrimap.as_view(),name='list_primlep'),
+    url(r'^lispreep/$',views.ListaAlumnosPreep.as_view(),name='list_preelep'),
+    url(r'^listsecp/$',views.ListaAlumnosSecp.as_view(),name='list_seclep'),
+    url(r'^listnoesyedadp/$',views.ListaAlumNoestytiedadp.as_view(),name='list_seclep'),
+    url(r'^listalumbachp/$',views.ListaAlumbachp.as_view(),name='list_bachlep'),   
+
+   
+
+    url(r'^add/$', views.AddAl.as_view(),name='xx'),
+    
     
 
  
 
 ]
   
+

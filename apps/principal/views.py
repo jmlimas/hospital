@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.views.generic import  TemplateView,FormView,ListView,UpdateView 
+from django.views.generic import  TemplateView,FormView,ListView,UpdateView,CreateView
 from braces.views import LoginRequiredMixin,GroupRequiredMixin
-from .models import Alumno,Cicloescolar
-from .forms  import AddAlumnoForm 
+from .models import Alumno,Cicloescolar,Hospital
+from .forms  import AddAlumnoForm,myform
 from django.shortcuts import get_object_or_404 
 from django.db.models import Count
 
@@ -44,17 +44,41 @@ class IndexView(TemplateView):
 		context['ne_l'] = Alumno.objects.filter(escolaridad='No Estudia y tiene edad escolar',fecha__year=today.year,fecha__month=today.month,hospital=2).count()		 
 		context['disc_l'] = Alumno.objects.filter(discapacidad='Discapacidad',fecha__year=today.year,fecha__month=today.month,hospital=2).count()
 		context['bach_l'] = Alumno.objects.filter(escolaridad='Bachillerato',fecha__year=today.year,fecha__month=today.month,hospital=2).count()
+		
+		context['pre_p'] = Alumno.objects.filter(escolaridad='Preescolar',fecha__year=today.year,fecha__month=today.month,atencion='Psicologia').count()
+		context['prim_p'] = Alumno.objects.filter(escolaridad='Primaria',fecha__year=today.year,fecha__month=today.month,atencion='Psicologia').count()
+		context['sec_p'] = Alumno.objects.filter(escolaridad='Secundaria',fecha__year=today.year,fecha__month=today.month,atencion='Psicologia').count()
+		context['ne_p'] = Alumno.objects.filter(escolaridad='No Estudia y tiene edad escolar',fecha__year=today.year,fecha__month=today.month,atencion='Psicologia').count()		 
+		context['disc_p'] = Alumno.objects.filter(discapacidad='Discapacidad',fecha__year=today.year,fecha__month=today.month,atencion='Psicologia').count()
+		context['bach_p'] = Alumno.objects.filter(escolaridad='Bachillerato',fecha__year=today.year,fecha__month=today.month,atencion='Psicologia').count()
+		
 		context['sinedadesc_l'] = Alumno.objects.filter(escolaridad='No Tiene Edad escolar',fecha__year=today.year,fecha__month=today.month,hospital=2).count()
 		context['solohoy_l'] = Alumno.objects.filter(fecha__year=today.year,fecha__month=today.month,fecha__day=today.day,hospital=2).count()
+		context['pisco_hoy'] = Alumno.objects.filter(atencion='Psicologia',fecha__year=today.year,fecha__month=today.month,fecha__day=today.day).count()
 
 		return context
  
-  
+
+
+class AddAl(CreateView):
+	form_class = AddAlumnoForm
+	template_name = 'principal/addalumno3333.html'
+	model = Alumno
+	success_url = '/'
+
+
 class AddAlumnoViews(LoginRequiredMixin,FormView):
 	form_class = AddAlumnoForm
 	template_name = 'principal/addalumno.html'
-	model = Alumno
+	model = Alumno	
 	success_url = '/'
+
+	def get_form(self, form_class):
+		#print self.request.user.id
+		form = super(AddAlumnoViews, self).get_form(form_class)
+		form.fields['hospital'].queryset = Hospital.objects.filter(usuarios__pk= self.request.user.id)
+		return form
+  
 
 	def form_valid(self, form, *args, **kwargs): 
  		xfolio =  Alumno.objects.count()+1
@@ -309,6 +333,111 @@ class ListaSinEdadl(LoginRequiredMixin,GroupRequiredMixin,ListView): # Sin Edad 
 		context['hospital'] = "Concentrado de Alumnos No Tiene Edad escolar Lerdo"		 
 		return context
 
+#Piscicologia
+
+class ListaAlumPishoy(LoginRequiredMixin,GroupRequiredMixin,ListView): # Discapacidad acumulado Gomez
+	context_object_name = 'alumnos'
+	template_name = 'principal/alumnosxx.html'
+	model = Alumno
+	group_required = ['pisi','super']
+	 
+	def get_queryset(self):	
+		today = date.today()
+		return super(ListaAlumPishoy,self).get_queryset().filter(atencion='Psicologia',fecha__year=today.year,fecha__month=today.month,fecha__day=today.day,ciclo__status=True) 
+
+	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
+		context = super(ListaAlumPishoy, self).get_context_data(**kwargs)		 
+		context['hospital'] = "Concentrado de Alumnos Con Atencion Pisicologica" 
+		return context
+
+
+class ListaAlumnosDiscap(LoginRequiredMixin,GroupRequiredMixin,ListView): # Discapacidad acumulado pisco
+	context_object_name = 'alumnos'
+	template_name = 'principal/alumnosxx.html'
+	model = Alumno
+	group_required = ['pisi','super']
+	 
+
+	def get_queryset(self):	
+		return super(ListaAlumnosDiscap,self).get_queryset().filter(atencion='Psicologia',ciclo__status=True).exclude(discapacidad='No') 
+
+	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
+		context = super(ListaAlumnosDiscap, self).get_context_data(**kwargs)		 
+		context['hospital'] = "Concentrado de Alumnos con Discapacidad" 
+		return context
+
+class ListaAlumnosPrimap(LoginRequiredMixin,GroupRequiredMixin,ListView): # Primaria lerdo Acumulado
+	context_object_name = 'alumnos'
+	template_name = 'principal/alumnosxx.html'
+	model = Alumno
+	group_required = ['pisi','super']
+
+	def get_queryset(self):	
+		return super(ListaAlumnosPrimap,self).get_queryset().filter(escolaridad='Primaria',atencion='Psicologia',ciclo__status=True) 
+
+	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
+		context = super(ListaAlumnosPrimap, self).get_context_data(**kwargs)	 
+		context['hospital'] = "Concentrado de Alumnos Primaria"	
+		return context
+
+class ListaAlumnosPreep(LoginRequiredMixin,GroupRequiredMixin,ListView): # Prescolar lerdo Acumulado
+	context_object_name = 'alumnos'
+	template_name = 'principal/alumnosxx.html'
+	model = Alumno
+	group_required = ['pisi','super']
+
+	 
+	def get_queryset(self):	
+		return super(ListaAlumnosPreep,self).get_queryset().filter(escolaridad='Preescolar',atencion='Psicologia',ciclo__status=True) 
+
+	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
+		context = super(ListaAlumnosPreep, self).get_context_data(**kwargs)		 
+		context['hospital'] = "Concentrado de Alumnos Preescolar"		 
+		return context
+
+class ListaAlumnosSecp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Secundaria lerdo Acumulado
+	context_object_name = 'alumnos'
+	template_name = 'principal/alumnosxx.html'
+	model = Alumno
+	group_required = ['pisi','super']	 
+
+	def get_queryset(self):	
+		return super(ListaAlumnosSecp,self).get_queryset().filter(escolaridad='Secundaria',atencion='Psicologia',ciclo__status=True) 
+
+	def get_context_data(self, **kwargs):  
+		context = super(ListaAlumnosSecp, self).get_context_data(**kwargs)		 
+		context['hospital'] = "Concentrado de Alumnos Secundaria"		 
+		return context
+
+class ListaAlumNoestytiedadp(LoginRequiredMixin,GroupRequiredMixin,ListView): # No estudia y tiene edad escalar lerdo Acumulado
+	context_object_name = 'alumnos'
+	template_name = 'principal/alumnosxx.html'
+	model = Alumno
+	group_required = ['pisi','super']
+
+	def get_queryset(self):	
+		return super(ListaAlumNoestytiedadp,self).get_queryset().filter(escolaridad='No Estudia y tiene edad escolar',atencion='Psicologia',ciclo__status=True) 
+
+	def get_context_data(self, **kwargs):  
+		context = super(ListaAlumNoestytiedadp, self).get_context_data(**kwargs)		 
+		context['hospital'] = "Concentrado de Alumnos que No estudia y tiene edad escalar"		 
+		return context
+
+
+class ListaAlumbachp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Bachillerato lerdo Acumulado
+	context_object_name = 'alumnos'
+	template_name = 'principal/alumnosxx.html'
+	model = Alumno
+	group_required = ['pisi','super']
+
+	def get_queryset(self):	
+		return super(ListaAlumbachp,self).get_queryset().filter(escolaridad='Bachillerato',hospital=2,ciclo__status=True) 
+
+	def get_context_data(self, **kwargs):  
+		context = super(ListaAlumbachp, self).get_context_data(**kwargs)		 
+		context['hospital'] = "Concentrado de Alumnos Bachillerato"		 
+		return context
+
  
 
 class UpdateAlumno(UpdateView):
@@ -341,18 +470,7 @@ class SerchAlumnoView(LoginRequiredMixin,GroupRequiredMixin,ListView):
 				
 		if q:
 		    queryset = queryset.filter(
-		        Q(escuela__icontains=q)|
+		        Q(folio__icontains=q)|
 		        Q(nombre__icontains=q) 
 		    )		
 		return queryset
-
-
-
-class dona(TemplateView):
-	template_name = 'principal/dona.html'	
-
-	def get_context_data(self, **kwargs):
-		context = super(dona, self).get_context_data(**kwargs)
-		context['esco'] = Alumno.objects.all().values('escolaridad').annotate(total=Count('escolaridad')).order_by('total')
-		#print context['esco'] 
-		return context

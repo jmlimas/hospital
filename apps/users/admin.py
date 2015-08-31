@@ -28,3 +28,4 @@ class UserAdmin(admin.ModelAdmin):
 							'user_permissions',
 				)}),
 		)
+
