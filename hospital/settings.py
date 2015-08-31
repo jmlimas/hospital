@@ -83,14 +83,26 @@ WSGI_APPLICATION = 'hospital.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+# local
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'parepas',
+#        'USER': 'parepas',
+#        'PASSWORD': 'chapis',
+#        'HOST': 'localhost',
+#        'PORT': '5432',
+#    }
+#}
 
+#Produccion
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'parepas',
-        'USER': 'parepas',
-        'PASSWORD': 'chapis',
-        'HOST': 'localhost',
+        'NAME': 'dfdbn89kcura6d',
+        'USER': 'ivrzpgwevbgwbo',
+        'PASSWORD': 'wKCGpKxVlpJ6VprXEJwfDFKwxA',
+        'HOST': 'ec2-54-227-255-240.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
