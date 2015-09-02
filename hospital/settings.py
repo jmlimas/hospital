@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).ancestor(2)
 SECRET_KEY = '#v2r)=$_kr36h7ue%rh@$*pju5j3uiug%o$63-%z3pe30&00i*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -84,27 +84,27 @@ WSGI_APPLICATION = 'hospital.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 # local
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'parepas',
-        'USER': 'parepas',
-        'PASSWORD': 'chapis',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
-#Produccion
 #DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME': 'dfdbn89kcura6d',
-#        'USER': 'ivrzpgwevbgwbo',
-#        'HOST': 'ec2-54-227-255-240.compute-1.amazonaws.com',
+#        'NAME': 'parepas',
+#        'USER': 'parepas',
+#        'PASSWORD': 'chapis',
+#        'HOST': 'localhost',
 #        'PORT': '5432',
 #    }
 #}
+
+#Produccion
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dfdbn89kcura6d',
+        'USER': 'ivrzpgwevbgwbo',
+        'HOST': 'ec2-54-227-255-240.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
