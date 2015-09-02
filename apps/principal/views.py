@@ -59,7 +59,7 @@ class IndexView(TemplateView):
 		context['sinedadesc_p'] = Alumno.objects.filter(escolaridad='No Tiene Edad escolar',atencion='Psicologia',ciclo__status=True).count()
 	
 		context['productividad'] = Alumno.objects.all().values('user__username').annotate(
-			total=Count('user__username')).order_by('total')
+			total=Count('user__username')).order_by('-total')
 		 
 		#atencion por nivel todo el ciclo 
 		q =  Alumno.objects.values('escolaridad').annotate(
