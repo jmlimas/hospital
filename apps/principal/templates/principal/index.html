@@ -1,6 +1,4 @@
-{% extends "principal/base_principal.html" %}
-
-{% block title %}Inicio{% endblock title %}
+{% extends "base_principal.html" %}
     
 {% block content %}
  <header class="app-header">
@@ -263,10 +261,6 @@
                             <span class="badge">{{ne_g}}</span>
                             <i class="fa fa-fw fa-comment"></i> No estudia y tiene edad escolar
                         </a>
-                        <a href="/lisdisg" class="list-group-item">
-                            <span class="badge">{{disc_g}}</span>
-                            <i class="fa fa-fw fa-comment"></i> Discapacidad
-                        </a>
                         <a href="/listalumbachg" class="list-group-item">
                             <span class="badge">{{bach_g}}</span>
                             <i class="fa fa-fw fa-comment"></i> Bachillerato
@@ -275,6 +269,10 @@
                             <span class="badge">{{sinedadesc_g}}</span>
                             <i class="fa fa-fw fa-comment"></i> Sin edad escolar
                         </a>                        
+                        <a href="/lisdisg" class="list-group-item">
+                            <span class="badge">{{disc_g}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Discapacidad
+                        </a>
                     </div>
                      
                 </div>
@@ -303,10 +301,6 @@
                             <span class="badge">{{ne_l}}</span>
                             <i class="fa fa-fw fa-comment"></i> No estudia y tiene edad escolar
                         </a>
-                        <a href="/lisdisl" class="list-group-item">
-                            <span class="badge">{{disc_l}}</span>
-                            <i class="fa fa-fw fa-comment"></i> Discapacidad
-                        </a>
                         <a href="/listalumbachl" class="list-group-item">
                             <span class="badge">{{bach_l}}</span>
                             <i class="fa fa-fw fa-comment"></i> Bachillerato
@@ -315,6 +309,10 @@
                             <span class="badge">{{sinedadesc_l}}</span>
                             <i class="fa fa-fw fa-comment"></i> Sin edad escolar
                         </a>                        
+                        <a href="/lisdisl" class="list-group-item">
+                            <span class="badge">{{disc_l}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Discapacidad
+                        </a>
                     </div>
                     
                 </div>
@@ -343,14 +341,18 @@
                             <span class="badge">{{ne_p}}</span>
                             <i class="fa fa-fw fa-comment"></i> No estudia y tiene edad escolar
                         </a>
+                        <a href="listalumbachp" class="list-group-item">
+                            <span class="badge">{{bach_p}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Bachillerato
+                        </a>  
+                        <a href="/listsinedadp" class="list-group-item">
+                            <span class="badge">{{sinedadesc_p}}</span>
+                            <i class="fa fa-fw fa-comment"></i> Sin edad escolar
+                        </a>                                   
                         <a href="lisdisp" class="list-group-item">
                             <span class="badge">{{disc_p}}</span>
                             <i class="fa fa-fw fa-comment"></i> Discapacidad
                         </a>
-                        <a href="listalumbachp" class="list-group-item">
-                            <span class="badge">{{bach_p}}</span>
-                            <i class="fa fa-fw fa-comment"></i> Bachillerato
-                        </a>                               
                     </div>                     
                 </div>
             </div>
@@ -359,7 +361,7 @@
 
         <div class="container eventos">  
             <div class="row contenedor-eventos">
-              {% for a  in alum %}
+              {% for a  in alum3 %}
                 <div class="col-sm-1 col-md-3">
                     <div class="thumbnail">
                         <img src="#" alt="250x180">
@@ -376,9 +378,106 @@
              {% endfor %}                
             </div>
         </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Total de alumnos por Maestra 
+                </div>
+                
+                <div class="panel-body">
+                      <div class="col-lg-6">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Maestra</th>
+                                    <th class="text-center">Cantidad atendida</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                {% for x in productividad %}
+                                    <tr>
+                                        <td>                                             
+                                           {{x.user__username}} 
+                                        </td>                                       
+                                        <td>{{ x.total }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="donutchart" class="col-lg-6" style="height: 250px;"></div> 
+                </div>
+            </div>
+        </div> 
 
+   
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Total de alumnos por Maestra
+                </div>
+                
+                <div class="panel-body">
+                      <div class="col-lg-6">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Nivel</th>
+                                    <th class="text-center">Quant.</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                {% for item in itens  %}
+                                    <tr>
+                                        <td>{{ item.escolaridad }}</td>
+                                        <td>{{ item.total }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="barchart" class="col-lg-6" style="height: 250px;"></div>
+                </div>
+            </div>
+        </div> 
+    </div> <!-- /.row -->
 </div> <!-- /.container -->
 
 	
 {% endblock content %}
 
+{% block js %}
+
+    <script type="text/javascript">
+        Morris.Bar({
+            element: 'barchart',
+            data: [
+                {% for item in itens %}
+                    { escolaridad: '{{ item.escolaridad }}', total:  {{ item.total }} },
+                {% endfor %}
+            ],
+            xkey: 'escolaridad',
+            ykeys: ['total'],
+            labels: ['total'],
+            hideHover: 'auto',
+            resize: true,
+        });
+    </script>
+ 
+    <script type="text/javascript">
+        Morris.Donut({
+            element: 'donutchart',
+            data: [
+                {% for x in productividad %}
+                    { label: '{{ x.user__username }}', value:  {{ x.total }}},
+                {% endfor %}
+            ],
+            //colors: [
+            //  '#FF00FF', // magenta
+            //  '#0000CD', // azul
+            //],
+            formatter: function (x) { return x + "%"}
+        });
+    </script>
+{% endblock js %}

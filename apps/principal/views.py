@@ -17,16 +17,7 @@ class IndexView(TemplateView):
 	def get_context_data(self, **kwargs):
 		today = date.today()	
 		context = super(IndexView,self).get_context_data(**kwargs)
-		#context['alum3'] = Alumno.objects.all().order_by('-fecha')[:3]
-		#Gomez
 		
-		context['pre_g'] = Alumno.objects.filter(escolaridad='Preescolar',hospital=1,ciclo__status=True).count()
-		context['prim_g'] = Alumno.objects.filter(escolaridad='Primaria',hospital=1,ciclo__status=True).count()		 
-		context['sec_g'] = Alumno.objects.filter(escolaridad='Secundaria',hospital=1,ciclo__status=True).count()
-		context['ne_g'] = Alumno.objects.filter(escolaridad='No Estudia y tiene edad escolar',hospital=1,ciclo__status=True).count()		 
-		context['disc_g'] = Alumno.objects.filter(hospital=1,ciclo__status=True).exclude(discapacidad='No').count()
-		context['bach_g'] = Alumno.objects.filter(escolaridad='Bachillerato',hospital=1,ciclo__status=True).count()
-		context['sinedadesc_g'] = Alumno.objects.filter(escolaridad='No Tiene Edad escolar',hospital=1,ciclo__status=True).count()
 		context['solohoy_g'] = Alumno.objects.filter(fecha__year=today.year,fecha__month=today.month,fecha__day=today.day,hospital=1).count()
 		context['pedhoy_g'] = Alumno.objects.filter(fecha__year=today.year,
 			fecha__month=today.month,fecha__day=today.day,hospital=1,modalidad='Pediatria').count()
@@ -37,27 +28,46 @@ class IndexView(TemplateView):
 		context['pedhoy_l'] = Alumno.objects.filter(fecha__year=today.year,
 			fecha__month=today.month,fecha__day=today.day,hospital=2,modalidad='Pediatria').count()
 		context['exthoy_l'] = Alumno.objects.filter(fecha__year=today.year,
-			fecha__month=today.month,fecha__day=today.day,hospital=2,modalidad='ConsultaExt').count()		
-		context['pre_l'] = Alumno.objects.filter(escolaridad='Preescolar',fecha__year=today.year,fecha__month=today.month,hospital=2).count()
-		context['prim_l'] = Alumno.objects.filter(escolaridad='Primaria',fecha__year=today.year,fecha__month=today.month,hospital=2).count()
-		context['sec_l'] = Alumno.objects.filter(escolaridad='Secundaria',fecha__year=today.year,fecha__month=today.month,hospital=2).count()
-		context['ne_l'] = Alumno.objects.filter(escolaridad='No Estudia y tiene edad escolar',fecha__year=today.year,fecha__month=today.month,hospital=2).count()		 
-		context['disc_l'] = Alumno.objects.filter(discapacidad='Discapacidad',fecha__year=today.year,fecha__month=today.month,hospital=2).count()
-		context['bach_l'] = Alumno.objects.filter(escolaridad='Bachillerato',fecha__year=today.year,fecha__month=today.month,hospital=2).count()
-		
-		context['pre_p'] = Alumno.objects.filter(escolaridad='Preescolar',fecha__year=today.year,fecha__month=today.month,atencion='Psicologia').count()
-		context['prim_p'] = Alumno.objects.filter(escolaridad='Primaria',fecha__year=today.year,fecha__month=today.month,atencion='Psicologia').count()
-		context['sec_p'] = Alumno.objects.filter(escolaridad='Secundaria',fecha__year=today.year,fecha__month=today.month,atencion='Psicologia').count()
-		context['ne_p'] = Alumno.objects.filter(escolaridad='No Estudia y tiene edad escolar',fecha__year=today.year,fecha__month=today.month,atencion='Psicologia').count()		 
-		context['disc_p'] = Alumno.objects.filter(discapacidad='Discapacidad',fecha__year=today.year,fecha__month=today.month,atencion='Psicologia').count()
-		context['bach_p'] = Alumno.objects.filter(escolaridad='Bachillerato',fecha__year=today.year,fecha__month=today.month,atencion='Psicologia').count()
-		
-		context['sinedadesc_l'] = Alumno.objects.filter(escolaridad='No Tiene Edad escolar',fecha__year=today.year,fecha__month=today.month,hospital=2).count()
+			fecha__month=today.month,fecha__day=today.day,hospital=2,modalidad='ConsultaExt').count()	
 		context['solohoy_l'] = Alumno.objects.filter(fecha__year=today.year,fecha__month=today.month,fecha__day=today.day,hospital=2).count()
 		context['pisco_hoy'] = Alumno.objects.filter(atencion='Psicologia',fecha__year=today.year,fecha__month=today.month,fecha__day=today.day).count()
+		
+
+
+		context['pre_g'] = Alumno.objects.filter(escolaridad='Preescolar',hospital=1,ciclo__status=True).count()
+		context['prim_g'] = Alumno.objects.filter(escolaridad='Primaria',hospital=1,ciclo__status=True).count()		 
+		context['sec_g'] = Alumno.objects.filter(escolaridad='Secundaria',hospital=1,ciclo__status=True).count()
+		context['ne_g'] = Alumno.objects.filter(escolaridad='No Estudia y tiene edad escolar',hospital=1,ciclo__status=True).count()		 
+		context['disc_g'] = Alumno.objects.filter(hospital=1,ciclo__status=True).exclude(discapacidad='No').count()
+		context['bach_g'] = Alumno.objects.filter(escolaridad='Bachillerato',hospital=1,ciclo__status=True).count()
+		context['sinedadesc_g'] = Alumno.objects.filter(escolaridad='No Tiene Edad escolar',hospital=1,ciclo__status=True).count()
+			
+		context['pre_l'] = Alumno.objects.filter(escolaridad='Preescolar',hospital=2,ciclo__status=True).count()
+		context['prim_l'] = Alumno.objects.filter(escolaridad='Primaria',hospital=2,ciclo__status=True).count()
+		context['sec_l'] = Alumno.objects.filter(escolaridad='Secundaria',hospital=2,ciclo__status=True).count()
+		context['ne_l'] = Alumno.objects.filter(escolaridad='No Estudia y tiene edad escolar',hospital=2,ciclo__status=True).count()		 
+		context['disc_l'] = Alumno.objects.filter(hospital=2,ciclo__status=True).exclude(discapacidad='No').count()
+		context['bach_l'] = Alumno.objects.filter(escolaridad='Bachillerato',hospital=2,ciclo__status=True).count()
+		context['sinedadesc_l'] = Alumno.objects.filter(escolaridad='No Tiene Edad escolar',hospital=2,ciclo__status=True).count()
+		
+		context['pre_p'] = Alumno.objects.filter(escolaridad='Preescolar',atencion='Psicologia',ciclo__status=True).count()
+		context['prim_p'] = Alumno.objects.filter(escolaridad='Primaria',atencion='Psicologia',ciclo__status=True).count()
+		context['sec_p'] = Alumno.objects.filter(escolaridad='Secundaria',atencion='Psicologia',ciclo__status=True).count()
+		context['ne_p'] = Alumno.objects.filter(escolaridad='No Estudia y tiene edad escolar',atencion='Psicologia',ciclo__status=True).count()		 
+		context['disc_p'] = Alumno.objects.filter(ciclo__status=True,atencion='Psicologia').exclude(discapacidad='No').count()
+		context['bach_p'] = Alumno.objects.filter(escolaridad='Bachillerato',atencion='Psicologia',ciclo__status=True).count()
+		context['sinedadesc_p'] = Alumno.objects.filter(escolaridad='No Tiene Edad escolar',atencion='Psicologia',ciclo__status=True).count()
+	
+		context['productividad'] = Alumno.objects.all().values('user__username').annotate(
+			total=Count('user__username')).order_by('total')
+		 
+		#atencion por nivel todo el ciclo 
+		q =  Alumno.objects.values('escolaridad').annotate(
+			total=Count('escolaridad')).order_by('escolaridad').values('escolaridad','total')
+		context['itens'] = q
+ 		print context['itens'] 
 
 		return context
- 
 
 
 class AddAl(CreateView):
@@ -431,11 +441,25 @@ class ListaAlumbachp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Bachille
 	group_required = ['pisi','super']
 
 	def get_queryset(self):	
-		return super(ListaAlumbachp,self).get_queryset().filter(escolaridad='Bachillerato',hospital=2,ciclo__status=True) 
+		return super(ListaAlumbachp,self).get_queryset().filter(escolaridad='Bachillerato',atencion='Psicologia',ciclo__status=True) 
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumbachp, self).get_context_data(**kwargs)		 
 		context['hospital'] = "Concentrado de Alumnos Bachillerato"		 
+		return context
+
+class ListaSinEdadp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Sin Edad lerdo Acumulado
+	context_object_name = 'alumnos'
+	template_name = 'principal/alumnosxx.html'
+	model = Alumno
+	group_required = ['pisi','super']
+
+	def get_queryset(self):	
+		return super(ListaSinEdadl,self).get_queryset().filter(escolaridad='No Tiene Edad escolar',atencion='Psicologia',ciclo__status=True) 
+
+	def get_context_data(self, **kwargs):  
+		context = super(ListaSinEdadl, self).get_context_data(**kwargs)		 
+		context['hospital'] = "Concentrado de Alumnos No Tiene Edad escolar"		 
 		return context
 
  
