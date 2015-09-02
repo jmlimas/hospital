@@ -65,9 +65,8 @@ class IndexView(TemplateView):
 		q =  Alumno.objects.values('escolaridad').annotate(
 			total=Count('escolaridad')).order_by('escolaridad').values('escolaridad','total')
 		context['itens'] = q
- 		print context['itens'] 
-
-		return context
+ 		#print context['itens'] 
+ 		return context
 
 
 class AddAl(CreateView):
