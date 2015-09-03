@@ -233,7 +233,102 @@
     </div> <!-- /.row -->
      
      
-     
+     <!-- Graficas -->   
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                   Alumnos por Maestra 
+                </div>
+                
+                <div class="panel-body">
+                      <div class="col-lg-4">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Maestra</th>
+                                    <th class="text-center">Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                {% for x in productividad %}
+                                    <tr>
+                                        <td>                                             
+                                           {{x.user__username}} 
+                                        </td>                                       
+                                        <td>{{ x.total }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="donutchart" class="col-lg-8" style="height: 250px;"></div> 
+                </div>
+            </div>
+        </div> 
+
+   
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Total de alumnos por Nivel
+                </div>
+                
+                <div class="panel-body">
+                      <!--<div class="col-lg-4">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Nivel</th>
+                                    <th class="text-center">Cantidad.</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                {% for item in itens  %}
+                                    <tr>
+                                        <td>{{ item.escolaridad }}</td>
+                                        <td>{{ item.total }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div> -->
+                    <div id="barchart" class="col-lg-12" style="height: 250px;"></div>
+                </div>
+            </div>
+        </div> 
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                   Alumnos Atendidos por Hospital
+                </div>
+                
+                <div class="panel-body">
+                     <!-- <div class="col-lg-4">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Hospital</th>
+                                    <th class="text-center">Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                {% for x in hosp %}
+                                    <tr>
+                                        <td>                                             
+                                           {{x.hospital__nombre}} 
+                                        </td>                                       
+                                        <td>{{ x.total }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>-->
+                    <div id="donutchart2" class="col-lg-12" style="height: 250px;"></div> 
+                </div>
+            </div>
+        </div> 
+    </div> <!-- /.row -->
 
 
  
@@ -358,6 +453,8 @@
             </div>
         </div>
     </div> <!-- /.row -->
+</div> <!-- /.container -->
+
 
         <div class="container eventos">  
             <div class="row contenedor-eventos">
@@ -378,71 +475,8 @@
              {% endfor %}                
             </div>
         </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                   Alumnos por Maestra 
-                </div>
-                
-                <div class="panel-body">
-                      <div class="col-lg-6">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Maestra</th>
-                                    <th class="text-center">Cantidad</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-                                {% for x in productividad %}
-                                    <tr>
-                                        <td>                                             
-                                           {{x.user__username}} 
-                                        </td>                                       
-                                        <td>{{ x.total }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="donutchart" class="col-lg-6" style="height: 250px;"></div> 
-                </div>
-            </div>
-        </div> 
 
-   
-        <div class="col-lg-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Total de alumnos por Nivel
-                </div>
-                
-                <div class="panel-body">
-                      <div class="col-lg-6">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Nivel</th>
-                                    <th class="text-center">Cantidad.</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-                                {% for item in itens  %}
-                                    <tr>
-                                        <td>{{ item.escolaridad }}</td>
-                                        <td>{{ item.total }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="barchart" class="col-lg-6" style="height: 250px;"></div>
-                </div>
-            </div>
-        </div> 
-    </div> <!-- /.row -->
-</div> <!-- /.container -->
+
 
 	
 {% endblock content %}
@@ -477,6 +511,21 @@
             //  '#FF00FF', // magenta
             //  '#0000CD', // azul
             //],
+            formatter: function (x) { return x + "%"}
+        });
+    </script>
+    <script type="text/javascript">
+        Morris.Donut({
+            element: 'donutchart2',
+            data: [
+                {% for x in hosp %}
+                    { label: '{{ x.hospital__nombre }}', value:  {{ x.total }}},
+                {% endfor %}
+            ],
+            colors: [
+              '#33CC33', // magenta
+              '#0000CD', // azul
+            ],
             formatter: function (x) { return x + "%"}
         });
     </script>

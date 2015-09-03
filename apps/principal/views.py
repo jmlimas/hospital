@@ -65,9 +65,11 @@ class IndexView(TemplateView):
 		q =  Alumno.objects.values('escolaridad').annotate(
 			total=Count('escolaridad')).order_by('escolaridad').values('escolaridad','total')
 		context['itens'] = q
- 		#print context['itens'] 
- 		return context
+ 		#print context['itens']  		
 
+ 		context['hosp'] = Alumno.objects.all().values('hospital__nombre').annotate(
+ 			total=Count('hospital__nombre')).order_by('-total')
+ 		return context
 
 class AddAl(CreateView):
 	form_class = AddAlumnoForm
