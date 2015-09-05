@@ -1,3 +1,5 @@
+#encoding:utf-8
+
 """
 Django settings for hospital project.
 

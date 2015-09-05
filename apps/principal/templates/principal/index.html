@@ -511,7 +511,7 @@
             //  '#FF00FF', // magenta
             //  '#0000CD', // azul
             //],
-            formatter: function (x) { return x + "%"}
+            formatter: function (x) { return x}
         });
     </script>
     <script type="text/javascript">
@@ -526,7 +526,8 @@
               '#33CC33', // magenta
               '#0000CD', // azul
             ],
-            formatter: function (x) { return x + "%"}
+            //formatter: function (x) { return x + "%"}
+            formatter: function (x) { return x }
         });
     </script>
 {% endblock js %}

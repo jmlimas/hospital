@@ -32,7 +32,8 @@ urlpatterns = [
     url(r'^lispreep/$',views.ListaAlumnosPreep.as_view(),name='list_preelep'),
     url(r'^listsecp/$',views.ListaAlumnosSecp.as_view(),name='list_seclep'),
     url(r'^listnoesyedadp/$',views.ListaAlumNoestytiedadp.as_view(),name='list_seclep'),
-    url(r'^listalumbachp/$',views.ListaAlumbachp.as_view(),name='list_bachlep'),   
+    url(r'^listalumbachp/$',views.ListaAlumbachp.as_view(),name='list_bachlep'),  
+    url(r'^listsinedadp/$',views.ListaSinEdadp.as_view(),name='list_sinedadler'),   
 
    
 
