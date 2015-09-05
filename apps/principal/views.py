@@ -358,7 +358,7 @@ class ListaAlumPishoy(LoginRequiredMixin,GroupRequiredMixin,ListView): # Discapa
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumPishoy, self).get_context_data(**kwargs)		 
-		context['hospital'] = "Concentrado de Alumnos Con Atencion Pisicologica" 
+		context['hospital'] = "Concentrado de Alumnos Con Atencion psicología" 
 		return context
 
 
@@ -374,7 +374,7 @@ class ListaAlumnosDiscap(LoginRequiredMixin,GroupRequiredMixin,ListView): # Disc
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumnosDiscap, self).get_context_data(**kwargs)		 
-		context['hospital'] = "Concentrado de Alumnos con Discapacidad, atendido por Piscicologia" 
+		context['hospital'] = "Concentrado de Alumnos con Discapacidad, atendido por psicología" 
 		return context
 
 class ListaAlumnosPrimap(LoginRequiredMixin,GroupRequiredMixin,ListView): # Primaria Psicologia Acumulado
@@ -388,7 +388,7 @@ class ListaAlumnosPrimap(LoginRequiredMixin,GroupRequiredMixin,ListView): # Prim
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumnosPrimap, self).get_context_data(**kwargs)	 
-		context['hospital'] = "Concentrado de Alumnos Primaria, atendido por Piscicologia"	
+		context['hospital'] = "Concentrado de Alumnos Primaria, atendido por psicología"	
 		return context
 
 class ListaAlumnosPreep(LoginRequiredMixin,GroupRequiredMixin,ListView): # Prescolar Psicologia Acumulado
@@ -403,7 +403,7 @@ class ListaAlumnosPreep(LoginRequiredMixin,GroupRequiredMixin,ListView): # Presc
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumnosPreep, self).get_context_data(**kwargs)		 
-		context['hospital'] = "Concentrado de Alumnos Preescolar, atendido por Piscicologia"		 
+		context['hospital'] = "Concentrado de Alumnos Preescolar, atendido por psicología"		 
 		return context
 
 class ListaAlumnosSecp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Secundaria lerdo Acumulado
@@ -417,7 +417,7 @@ class ListaAlumnosSecp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Secund
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumnosSecp, self).get_context_data(**kwargs)		 
-		context['hospital'] = "Concentrado de Alumnos Secundaria, atendido por Piscicologia"		 
+		context['hospital'] = "Concentrado de Alumnos Secundaria, atendido por psicología"		 
 		return context
 
 class ListaAlumNoestytiedadp(LoginRequiredMixin,GroupRequiredMixin,ListView): # No estudia y tiene edad escalar lerdo Acumulado
@@ -431,7 +431,7 @@ class ListaAlumNoestytiedadp(LoginRequiredMixin,GroupRequiredMixin,ListView): # 
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumNoestytiedadp, self).get_context_data(**kwargs)		 
-		context['hospital'] = "Concentrado de Alumnos que No estudia y tiene edad escalar, atendido por Piscicologia"		 
+		context['hospital'] = "Concentrado de Alumnos que No estudia y tiene edad escalar, atendido por psicología"		 
 		return context
 
 
@@ -446,7 +446,7 @@ class ListaAlumbachp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Bachille
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumbachp, self).get_context_data(**kwargs)		 
-		context['hospital'] = "Concentrado de Alumnos Bachillerato, atendido por Piscicologia"		 
+		context['hospital'] = "Concentrado de Alumnos Bachillerato, atendido por psicología"		 
 		return context
 
 class ListaSinEdadp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Sin Edad lerdo Acumulado
@@ -460,7 +460,7 @@ class ListaSinEdadp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Sin Edad 
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaSinEdadp, self).get_context_data(**kwargs)		 
-		context['hospital'] = "Concentrado de Alumnos No Tiene Edad escolar, atendido por Piscicologia"		 
+		context['hospital'] = "Concentrado de Alumnos No Tiene Edad escolar, atendido por psicología"		 
 		return context
 
  
