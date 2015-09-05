@@ -374,10 +374,10 @@ class ListaAlumnosDiscap(LoginRequiredMixin,GroupRequiredMixin,ListView): # Disc
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumnosDiscap, self).get_context_data(**kwargs)		 
-		context['hospital'] = "Concentrado de Alumnos con Discapacidad" 
+		context['hospital'] = "Concentrado de Alumnos con Discapacidad, atendido por Piscicologia" 
 		return context
 
-class ListaAlumnosPrimap(LoginRequiredMixin,GroupRequiredMixin,ListView): # Primaria lerdo Acumulado
+class ListaAlumnosPrimap(LoginRequiredMixin,GroupRequiredMixin,ListView): # Primaria Psicologia Acumulado
 	context_object_name = 'alumnos'
 	template_name = 'principal/alumnosxx.html'
 	model = Alumno
@@ -388,10 +388,10 @@ class ListaAlumnosPrimap(LoginRequiredMixin,GroupRequiredMixin,ListView): # Prim
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumnosPrimap, self).get_context_data(**kwargs)	 
-		context['hospital'] = "Concentrado de Alumnos Primaria"	
+		context['hospital'] = "Concentrado de Alumnos Primaria, atendido por Piscicologia"	
 		return context
 
-class ListaAlumnosPreep(LoginRequiredMixin,GroupRequiredMixin,ListView): # Prescolar lerdo Acumulado
+class ListaAlumnosPreep(LoginRequiredMixin,GroupRequiredMixin,ListView): # Prescolar Psicologia Acumulado
 	context_object_name = 'alumnos'
 	template_name = 'principal/alumnosxx.html'
 	model = Alumno
@@ -403,7 +403,7 @@ class ListaAlumnosPreep(LoginRequiredMixin,GroupRequiredMixin,ListView): # Presc
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumnosPreep, self).get_context_data(**kwargs)		 
-		context['hospital'] = "Concentrado de Alumnos Preescolar"		 
+		context['hospital'] = "Concentrado de Alumnos Preescolar, atendido por Piscicologia"		 
 		return context
 
 class ListaAlumnosSecp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Secundaria lerdo Acumulado
@@ -417,7 +417,7 @@ class ListaAlumnosSecp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Secund
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumnosSecp, self).get_context_data(**kwargs)		 
-		context['hospital'] = "Concentrado de Alumnos Secundaria"		 
+		context['hospital'] = "Concentrado de Alumnos Secundaria, atendido por Piscicologia"		 
 		return context
 
 class ListaAlumNoestytiedadp(LoginRequiredMixin,GroupRequiredMixin,ListView): # No estudia y tiene edad escalar lerdo Acumulado
@@ -431,7 +431,7 @@ class ListaAlumNoestytiedadp(LoginRequiredMixin,GroupRequiredMixin,ListView): # 
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumNoestytiedadp, self).get_context_data(**kwargs)		 
-		context['hospital'] = "Concentrado de Alumnos que No estudia y tiene edad escalar"		 
+		context['hospital'] = "Concentrado de Alumnos que No estudia y tiene edad escalar, atendido por Piscicologia"		 
 		return context
 
 
@@ -446,7 +446,7 @@ class ListaAlumbachp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Bachille
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumbachp, self).get_context_data(**kwargs)		 
-		context['hospital'] = "Concentrado de Alumnos Bachillerato"		 
+		context['hospital'] = "Concentrado de Alumnos Bachillerato, atendido por Piscicologia"		 
 		return context
 
 class ListaSinEdadp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Sin Edad lerdo Acumulado
@@ -456,11 +456,11 @@ class ListaSinEdadp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Sin Edad 
 	group_required = ['pisi','super']
 
 	def get_queryset(self):	
-		return super(ListaSinEdadl,self).get_queryset().filter(escolaridad='No Tiene Edad escolar',atencion='Psicologia',ciclo__status=True) 
+		return super(ListaSinEdadp,self).get_queryset().filter(escolaridad='No Tiene Edad escolar',atencion='Psicologia',ciclo__status=True) 
 
 	def get_context_data(self, **kwargs):  
-		context = super(ListaSinEdadl, self).get_context_data(**kwargs)		 
-		context['hospital'] = "Concentrado de Alumnos No Tiene Edad escolar"		 
+		context = super(ListaSinEdadp, self).get_context_data(**kwargs)		 
+		context['hospital'] = "Concentrado de Alumnos No Tiene Edad escolar, atendido por Piscicologia"		 
 		return context
 
  

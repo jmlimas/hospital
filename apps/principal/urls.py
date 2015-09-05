@@ -33,7 +33,7 @@ urlpatterns = [
     url(r'^listsecp/$',views.ListaAlumnosSecp.as_view(),name='list_seclep'),
     url(r'^listnoesyedadp/$',views.ListaAlumNoestytiedadp.as_view(),name='list_seclep'),
     url(r'^listalumbachp/$',views.ListaAlumbachp.as_view(),name='list_bachlep'),  
-    url(r'^listsinedadp/$',views.ListaSinEdadp.as_view(),name='list_sinedadler'),   
+    url(r'^listsinedadp/$',views.ListaSinEdadp.as_view(),name='list_sinedadp'),   
 
    
 
