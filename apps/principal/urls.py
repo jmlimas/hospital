@@ -35,6 +35,8 @@ urlpatterns = [
     url(r'^listalumbachp/$',views.ListaAlumbachp.as_view(),name='list_bachlep'),  
     url(r'^listsinedadp/$',views.ListaSinEdadp.as_view(),name='list_sinedadp'),   
 
+
+    url(r'^lisdobles/$',views.ListDuplicados.as_view(),name='list_duplicados'),
    
 
     url(r'^add/$', views.AddAl.as_view(),name='xx'),

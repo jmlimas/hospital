@@ -58,8 +58,11 @@ class IndexView(TemplateView):
 		context['bach_p'] = Alumno.objects.filter(escolaridad='Bachillerato',atencion='Psicologia',ciclo__status=True).count()
 		context['sinedadesc_p'] = Alumno.objects.filter(escolaridad='No Tiene Edad escolar',atencion='Psicologia',ciclo__status=True).count()
 	
+		# Graficas 
 		context['productividad'] = Alumno.objects.all().values('user__username').annotate(
 			total=Count('user__username')).order_by('-total')
+		 
+		#context['dobles'] = Alumno.objects.all().values('nombre').annotate(total=Count('nombre')).order_by() 
 		 
 		#atencion por nivel todo el ciclo 
 		q =  Alumno.objects.values('escolaridad').annotate(
@@ -70,6 +73,7 @@ class IndexView(TemplateView):
  		context['hosp'] = Alumno.objects.all().values('hospital__nombre').annotate(
  			total=Count('hospital__nombre')).order_by('-total')
  		return context
+ 		# Graficas Fin
 
 class AddAl(CreateView):
 	form_class = AddAlumnoForm
@@ -122,6 +126,20 @@ class ListAlumnoshoy(LoginRequiredMixin,GroupRequiredMixin,ListView):
 		context['hospital'] = "Gomez Palacio"
 		context['ciclo'] = Cicloescolar.objects.filter(status=True)
 		return context
+
+class ListDuplicados(ListView):
+	context_object_name = 'alumnos'
+	template_name = 'principal/duplicados.html'
+	model = Alumno
+
+	#def get_queryset(self):
+	#	return super(ListDuplicados,self).get_queryset().order_by('nombre') 
+
+	def get_context_data(self, **kwargs):
+		context = super(ListDuplicados,self).get_context_data(**kwargs)
+		context['dobles'] = Alumno.objects.all().values('nombre').annotate(total=Count('nombre')).order_by('nombre') 
+		return context
+
 
 class ListAlumnoshoyL(LoginRequiredMixin,GroupRequiredMixin,ListView):
 	context_object_name = 'alumnos'

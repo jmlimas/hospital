@@ -1,28 +1,20 @@
 {% extends "base_principal.html" %}
 {% block title %}Inicio{% endblock title %}
 {% block content %} 
-
     {% include "principal/navbar.html" %} 
 
 <div class="container">
         <div class="page-header">
-             <h4> 
+            <br>
+            <h4> 
                 <br>
-
-           <a href="/" class="btn btn-success">
-                            <span class="glyphicon glyphicon-chevron-left"></span> Regresar
-            </a>             
-            <a class="btn btn-primary pull-right" href="/addalumno">
+                <a href="/" class="btn btn-success">
+                    <span class="glyphicon glyphicon-chevron-left"></span> Regresar
+                </a>             
+                <a class="btn btn-primary pull-right" href="/addalumno">
                     <span class="glyphicon glyphicon-plus"></span> Nuevo Alumno
                 </a>
-          </h4>
-           <br>
-            <form action= "." method="GET">
-                 <label for="q">Buscar</label>
-                 <input id="aut" name = "q" autofocus type="search" placeholder="nombre alumno" value="{% if q %}{{ q }}{% else %}{% endif %}" >
-                 <input type="submit" value="Buscar">
-             </form>
-         
+            </h4>
         </div><!-- page-header -->
 
           <div class="row">
@@ -40,11 +32,12 @@
                         <th>Escolaridad Grado</th>
                         <th>Escuela</th>
                         <th>FechaAtencion</th>
+                        <th>User</th>
                     </tr>
                     </thead>
                     <tbody>
-                        
-                        {%for a in object_list%}
+                       
+                        {%for a in dobles%}
                         <tr>
                             <td>
                                  <small>{{a.folio}}</small>
@@ -54,7 +47,7 @@
                             </td> 
                             <td>
                                 <small>{{a.atencion}}</small>
-                            </td>                 
+                            </td>           
                             <td>
                                 <small>{{a.nombre}}</small>
                             </td>
@@ -77,17 +70,18 @@
                                 <small>{{a.fechaatencion|date:"M d, Y"}}</small>
                             </td>
                             <td>
-                                <small>{{a.user}}</small>
+                                <small>{{a.user }}</small>
                             </td>
                             <td>
-                                <td class="text-right">                                
-                                <a href="{% url 'principal_app:alumno_update' a.id %}"  class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></a>
-                            </td>                        
+                                <small>{{a.total}}</small>
+                            </td>
+                                              
                         </tr>
                         {%endfor%} 
                         </tbody>
                 </table>
             </div><!-- col-md-12 -->
         </div><!-- /row -->
-    </div><!-- /container -->      
+    </div><!-- /container -->
+      
 {% endblock content %}

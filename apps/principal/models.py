@@ -116,6 +116,9 @@ class Alumno(TimeStampModel):
     def __unicode__(self):
         return self.nombre   
 
+    def save(self, force_insert=False, force_update=False):
+        self.nombre = self.nombre.lower()
+        super(Alumno, self).save(force_insert, force_update)
  
 
 class Escuela(TimeStampModel):
