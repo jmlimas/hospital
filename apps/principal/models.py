@@ -120,6 +120,11 @@ class Alumno(TimeStampModel):
         self.nombre = self.nombre.lower()
         self.escuela = self.escuela.lower()
         super(Alumno, self).save(force_insert, force_update)
+
+    def clean(self):
+        if self.nombre:
+            self.nombre = self.nombre.strip()
+    
  
 
 class Escuela(TimeStampModel):
