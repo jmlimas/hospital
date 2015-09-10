@@ -37,13 +37,13 @@
                     </thead>
                     <tbody>
                        
-                        {%for a in dobles%}
+                        {%for a in alumnos %}
                         <tr>
                             <td>
                                  <small>{{a.folio}}</small>
                             </td>  
                              <td>
-                                 <small>{{a.modalidad}}</small>
+                                 <small>{{a.hospital__nombre}}</small>
                             </td> 
                             <td>
                                 <small>{{a.atencion}}</small>
@@ -70,7 +70,7 @@
                                 <small>{{a.fechaatencion|date:"M d, Y"}}</small>
                             </td>
                             <td>
-                                <small>{{a.user }}</small>
+                                <small>{{a.user__username }}</small>
                             </td>
                             <td>
                                 <small>{{a.total}}</small>

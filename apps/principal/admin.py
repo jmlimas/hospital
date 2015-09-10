@@ -6,8 +6,8 @@ from .actions import export_as_excel
 
 @admin.register(Alumno)
 class AlumnoAdmin(admin.ModelAdmin):
-	list_display = ('user','fecha','modified','atencion','fechaatencion','hospital','nombre','edad','meses','sexo','grado','escolaridad','escuela' )
-	search_fields = ('nombre','fechaatencion','escuela')
+	list_display = ('user','folio','fecha','modified','atencion','fechaatencion','hospital','nombre','edad','meses','sexo','grado','escolaridad','escuela' )
+	search_fields = ('nombre','folio')
 	list_filter = ('escolaridad','escuela','user','hospital','fechaatencion') 
 	actions = [export_as_excel] 
 

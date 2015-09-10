@@ -118,6 +118,7 @@ class Alumno(TimeStampModel):
 
     def save(self, force_insert=False, force_update=False):
         self.nombre = self.nombre.lower()
+        self.escuela = self.escuela.lower()
         super(Alumno, self).save(force_insert, force_update)
  
 
