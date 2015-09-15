@@ -121,12 +121,14 @@ class ListAlumnoshoy(LoginRequiredMixin,GroupRequiredMixin,ListView):
 	model = Alumno
 	group_required = ['gomez','super']
 
+																	 
 
 	def get_queryset(self):
 		today = date.today()
-		return super(ListAlumnoshoy, self).get_queryset().filter(fecha__year=today.year,
-			fecha__month=today.month,fecha__day=today.day,hospital=1) 
-
+		if self.request.user.is_superuser:
+			return super(ListAlumnoshoy, self).get_queryset().filter(fecha__year=today.year,fecha__month=today.month,fecha__day=today.day,hospital=1) 
+		else:
+		   	return super(ListAlumnoshoy, self).get_queryset().filter(user=self.request.user,fecha__year=today.year,fecha__month=today.month,fecha__day=today.day,hospital=1) 
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListAlumnoshoy, self).get_context_data(**kwargs)		 
@@ -134,24 +136,7 @@ class ListAlumnoshoy(LoginRequiredMixin,GroupRequiredMixin,ListView):
 		context['ciclo'] = Cicloescolar.objects.filter(status=True)
 		return context
 
-class ListDuplicados(ListView):
-	context_object_name = 'alumnos'
-	template_name = 'principal/duplicados.html'
-	model = Alumno
 
-#context['disc_l'] = Alumno.objects.filter(hospital=2,ciclo__status=True).exclude(discapacidad='No').count()
-
-	def get_queryset(self):
-		return super(ListDuplicados,self).get_queryset().filter(ciclo__status=True).exclude(
-	escolaridad__icontains='No Tiene Edad escolar').filter(ciclo__status=True).exclude(escolaridad__icontains = 'No Estudia y tiene edad escolar'
-	).values('hospital__nombre',
-	'nombre').annotate(total=Count('nombre')).order_by('nombre')#.filter(total__gt=1) 
-	
-	def get_context_data(self, **kwargs):
-		context = super(ListDuplicados,self).get_context_data(**kwargs)
-		context['dobles'] = Alumno.objects.all().values('nombre').annotate(total=Count('nombre')).order_by('nombre') #.filter(total__gt=1) 
-		#print context['dobles']
-		return context
 
 class ListAlumnoshoyL(LoginRequiredMixin,GroupRequiredMixin,ListView):
 	context_object_name = 'alumnos'
@@ -161,8 +146,12 @@ class ListAlumnoshoyL(LoginRequiredMixin,GroupRequiredMixin,ListView):
 
 	def get_queryset(self):
 		today = date.today()
-		return super(ListAlumnoshoyL, self).get_queryset().filter(fecha__year=today.year,
-			fecha__month=today.month,fecha__day=today.day,hospital=2) 
+		if self.request.user.is_superuser:
+			return super(ListAlumnoshoyL, self).get_queryset().filter(fecha__year=today.year,
+				fecha__month=today.month,fecha__day=today.day,hospital=2)
+		else:
+			return super(ListAlumnoshoyL, self).get_queryset().filter(user=self.request.user,fecha__year=today.year,
+				fecha__month=today.month,fecha__day=today.day,hospital=2)		 	 
 
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
@@ -180,7 +169,10 @@ class ListaAlumnosDiscagomez(LoginRequiredMixin,GroupRequiredMixin,ListView): # 
 
 
 	def get_queryset(self):	
-		return super(ListaAlumnosDiscagomez,self).get_queryset().filter(hospital=1,ciclo__status=True).exclude(discapacidad='No').order_by('folio') 
+		if self.request.user.is_superuser:
+			return super(ListaAlumnosDiscagomez,self).get_queryset().filter(hospital=1,ciclo__status=True).exclude(discapacidad='No').order_by('folio') 
+		else:
+			return super(ListaAlumnosDiscagomez,self).get_queryset().filter(user=self.request.user,hospital=1,ciclo__status=True).exclude(discapacidad='No').order_by('folio') 
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumnosDiscagomez, self).get_context_data(**kwargs)		 
@@ -194,7 +186,10 @@ class ListaAlumnosPrimagomez(LoginRequiredMixin,GroupRequiredMixin,ListView): # 
 	group_required = ['gomez','super']
 
 	def get_queryset(self):	
-		return super(ListaAlumnosPrimagomez,self).get_queryset().filter(escolaridad='Primaria',hospital=1,ciclo__status=True).order_by('folio')
+		if self.request.user.is_superuser:
+			return super(ListaAlumnosPrimagomez,self).get_queryset().filter(escolaridad='Primaria',hospital=1,ciclo__status=True).order_by('folio')
+		else:
+			return super(ListaAlumnosPrimagomez,self).get_queryset().filter(user=self.request.user,escolaridad='Primaria',hospital=1,ciclo__status=True).order_by('folio')
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumnosPrimagomez, self).get_context_data(**kwargs)	 
@@ -208,8 +203,11 @@ class ListaAlumnosPreegomez(LoginRequiredMixin,GroupRequiredMixin,ListView): # P
 	group_required = ['gomez','super']
 
 	def get_queryset(self):	
-		return super(ListaAlumnosPreegomez,self).get_queryset().filter(escolaridad='Preescolar',hospital=1,ciclo__status=True).order_by('folio')
-
+		if self.request.user.is_superuser:
+			return super(ListaAlumnosPreegomez,self).get_queryset().filter(escolaridad='Preescolar',hospital=1,ciclo__status=True).order_by('folio')
+		else:
+			return super(ListaAlumnosPreegomez,self).get_queryset().filter(user=self.request.user,escolaridad='Preescolar',hospital=1,ciclo__status=True).order_by('folio')
+	
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumnosPreegomez, self).get_context_data(**kwargs)		 
 		context['hospital'] = "Concentrado de Alumnos Preescolar Gomez Palacio"		 
@@ -222,7 +220,10 @@ class ListaAlumnosSecgomez(LoginRequiredMixin,GroupRequiredMixin,ListView): # Se
 	group_required = ['gomez','super']
 
 	def get_queryset(self):	
-		return super(ListaAlumnosSecgomez,self).get_queryset().filter(escolaridad='Secundaria',hospital=1,ciclo__status=True).order_by('folio') 
+		if self.request.user.is_superuser:
+			return super(ListaAlumnosSecgomez,self).get_queryset().filter(escolaridad='Secundaria',hospital=1,ciclo__status=True).order_by('folio') 
+		else:
+			return super(ListaAlumnosSecgomez,self).get_queryset().filter(user=self.request.user,escolaridad='Secundaria',hospital=1,ciclo__status=True).order_by('folio') 
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumnosSecgomez, self).get_context_data(**kwargs)		 
@@ -235,8 +236,11 @@ class ListaAlumNoestytiedadg(LoginRequiredMixin,GroupRequiredMixin,ListView): # 
 	model = Alumno
 	group_required = ['gomez','super']
 
-	def get_queryset(self):	
-		return super(ListaAlumNoestytiedadg,self).get_queryset().filter(escolaridad='No Estudia y tiene edad escolar',hospital=1,ciclo__status=True).order_by('folio') 
+	def get_queryset(self):
+		if self.request.user.is_superuser:	
+			return super(ListaAlumNoestytiedadg,self).get_queryset().filter(escolaridad='No Estudia y tiene edad escolar',hospital=1,ciclo__status=True).order_by('folio') 
+		else:
+			return super(ListaAlumNoestytiedadg,self).get_queryset().filter(user=self.request.user,escolaridad='No Estudia y tiene edad escolar',hospital=1,ciclo__status=True).order_by('folio') 
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumNoestytiedadg, self).get_context_data(**kwargs)		 
@@ -249,8 +253,11 @@ class ListaAlumbachg(LoginRequiredMixin,GroupRequiredMixin,ListView): # Bachille
 	model = Alumno
 	group_required = ['gomez','super']
 
-	def get_queryset(self):	
-		return super(ListaAlumbachg,self).get_queryset().filter(escolaridad='Bachillerato',hospital=1,ciclo__status=True).order_by('folio')
+	def get_queryset(self):
+		if self.request.user.is_superuser:
+			return super(ListaAlumbachg,self).get_queryset().filter(escolaridad='Bachillerato',hospital=1,ciclo__status=True).order_by('folio')
+		else:
+			return super(ListaAlumbachg,self).get_queryset().filter(user=self.request.user,escolaridad='Bachillerato',hospital=1,ciclo__status=True).order_by('folio')
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumbachg, self).get_context_data(**kwargs)		 
@@ -265,7 +272,10 @@ class ListaSinEdadg(LoginRequiredMixin,GroupRequiredMixin,ListView): # Sin Edad 
 	group_required = ['gomez','super']
 
 	def get_queryset(self):	
-		return super(ListaSinEdadg,self).get_queryset().filter(escolaridad='No Tiene Edad escolar',hospital=1,ciclo__status=True).order_by('folio') 
+		if self.request.user.is_superuser:
+			return super(ListaSinEdadg,self).get_queryset().filter(escolaridad='No Tiene Edad escolar',hospital=1,ciclo__status=True).order_by('folio') 
+		else:
+			return super(ListaSinEdadg,self).get_queryset().filter(user=self.request.user,escolaridad='No Tiene Edad escolar',hospital=1,ciclo__status=True).order_by('folio') 
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaSinEdadg, self).get_context_data(**kwargs)		 
@@ -281,7 +291,10 @@ class ListaAlumnosDiscal(LoginRequiredMixin,GroupRequiredMixin,ListView): # Disc
 	group_required = ['lerdo','super']
 
 	def get_queryset(self):	
-		return super(ListaAlumnosDiscal,self).get_queryset().filter(hospital=2,ciclo__status=True).exclude(discapacidad='No').order_by('folio')
+		if self.request.user.is_superuser:
+			return super(ListaAlumnosDiscal,self).get_queryset().filter(hospital=2,ciclo__status=True).exclude(discapacidad='No').order_by('folio')
+		else:
+			return super(ListaAlumnosDiscal,self).get_queryset().filter(user=self.request.user,hospital=2,ciclo__status=True).exclude(discapacidad='No').order_by('folio')
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumnosDiscal, self).get_context_data(**kwargs)		 
@@ -295,11 +308,15 @@ class ListaAlumnosPrimal(LoginRequiredMixin,GroupRequiredMixin,ListView): # Prim
 	group_required = ['lerdo','super']
 
 	def get_queryset(self):	
-		return super(ListaAlumnosPrimal,self).get_queryset().filter(escolaridad='Primaria',hospital=2,ciclo__status=True).order_by('folio') 
+		if self.request.user.is_superuser:
+			return super(ListaAlumnosPrimal,self).get_queryset().filter(escolaridad='Primaria',hospital=2,ciclo__status=True).order_by('folio') 
+		else:
+			return super(ListaAlumnosPrimal,self).get_queryset().filter(escolaridad='Primaria',hospital=2,ciclo__status=True,user = self.request.user).order_by('folio') 
+
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumnosPrimal, self).get_context_data(**kwargs)	 
-		context['hospital'] = "Concentrado de Alumnos Primaria Lerdo"	
+		context['hospital'] = "Concentrado de Alumnos Primaria Lerdoxxx"	
 		return context
 
 class ListaAlumnosPreel(LoginRequiredMixin,GroupRequiredMixin,ListView): # Prescolar lerdo Acumulado
@@ -309,7 +326,10 @@ class ListaAlumnosPreel(LoginRequiredMixin,GroupRequiredMixin,ListView): # Presc
 	group_required = ['lerdo','super']
 
 	def get_queryset(self):	
-		return super(ListaAlumnosPreel,self).get_queryset().filter(escolaridad='Preescolar',hospital=2,ciclo__status=True).order_by('folio')
+		if self.request.user.is_superuser:
+			return super(ListaAlumnosPreel,self).get_queryset().filter(escolaridad='Preescolar',hospital=2,ciclo__status=True).order_by('folio')
+		else:
+			return super(ListaAlumnosPreel,self).get_queryset().filter(user = self.request.user,escolaridad='Preescolar',hospital=2,ciclo__status=True).order_by('folio')
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumnosPreel, self).get_context_data(**kwargs)		 
@@ -323,7 +343,10 @@ class ListaAlumnosSecl(LoginRequiredMixin,GroupRequiredMixin,ListView): # Secund
 	group_required = ['lerdo','super']
 
 	def get_queryset(self):	
-		return super(ListaAlumnosSecl,self).get_queryset().filter(escolaridad='Secundaria',hospital=2,ciclo__status=True).order_by('folio')
+		if self.request.user.is_superuser:
+			return super(ListaAlumnosSecl,self).get_queryset().filter(escolaridad='Secundaria',hospital=2,ciclo__status=True).order_by('folio')
+		else:
+			return super(ListaAlumnosSecl,self).get_queryset().filter(user=self.request.user,escolaridad='Secundaria',hospital=2,ciclo__status=True).order_by('folio')
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumnosSecl, self).get_context_data(**kwargs)		 
@@ -337,7 +360,10 @@ class ListaAlumNoestytiedadl(LoginRequiredMixin,GroupRequiredMixin,ListView): # 
 	group_required = ['lerdo','super']
 
 	def get_queryset(self):	
-		return super(ListaAlumNoestytiedadl,self).get_queryset().filter(escolaridad='No Estudia y tiene edad escolar',hospital=2,ciclo__status=True).order_by('folio')
+		if self.request.user.is_superuser:
+			return super(ListaAlumNoestytiedadl,self).get_queryset().filter(escolaridad='No Estudia y tiene edad escolar',hospital=2,ciclo__status=True).order_by('folio')
+		else:
+			return super(ListaAlumNoestytiedadl,self).get_queryset().filter(user=self.request.user,escolaridad='No Estudia y tiene edad escolar',hospital=2,ciclo__status=True).order_by('folio')
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumNoestytiedadl, self).get_context_data(**kwargs)		 
@@ -352,7 +378,10 @@ class ListaAlumbachl(LoginRequiredMixin,GroupRequiredMixin,ListView): # Bachille
 	group_required = ['lerdo','super']
 
 	def get_queryset(self):	
-		return super(ListaAlumbachl,self).get_queryset().filter(escolaridad='Bachillerato',hospital=2,ciclo__status=True).order_by('folio') 
+		if self.request.user.is_superuser:
+			return super(ListaAlumbachl,self).get_queryset().filter(escolaridad='Bachillerato',hospital=2,ciclo__status=True).order_by('folio') 
+		else:
+			return super(ListaAlumbachl,self).get_queryset().filter(user=self.request.user,escolaridad='Bachillerato',hospital=2,ciclo__status=True).order_by('folio') 
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumbachl, self).get_context_data(**kwargs)		 
@@ -367,7 +396,10 @@ class ListaSinEdadl(LoginRequiredMixin,GroupRequiredMixin,ListView): # Sin Edad 
 	group_required = ['lerdo','super']
 
 	def get_queryset(self):	
-		return super(ListaSinEdadl,self).get_queryset().filter(escolaridad='No Tiene Edad escolar',hospital=2,ciclo__status=True).order_by('folio')
+		if self.request.user.is_superuser:
+			return super(ListaSinEdadl,self).get_queryset().filter(escolaridad='No Tiene Edad escolar',hospital=2,ciclo__status=True).order_by('folio')
+		else:
+			return super(ListaSinEdadl,self).get_queryset().filter(user=self.request.user,escolaridad='No Tiene Edad escolar',hospital=2,ciclo__status=True).order_by('folio')
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaSinEdadl, self).get_context_data(**kwargs)		 
@@ -384,7 +416,10 @@ class ListaAlumPishoy(LoginRequiredMixin,GroupRequiredMixin,ListView): # Discapa
 	 
 	def get_queryset(self):	
 		today = date.today()
-		return super(ListaAlumPishoy,self).get_queryset().filter(atencion='Psicologia',fecha__year=today.year,fecha__month=today.month,fecha__day=today.day,ciclo__status=True).order_by('folio')
+		if self.request.user.is_superuser:
+			return super(ListaAlumPishoy,self).get_queryset().filter(atencion='Psicologia',fecha__year=today.year,fecha__month=today.month,fecha__day=today.day,ciclo__status=True).order_by('folio')
+		else:
+			return super(ListaAlumPishoy,self).get_queryset().filter(user=self.request.user,atencion='Psicologia',fecha__year=today.year,fecha__month=today.month,fecha__day=today.day,ciclo__status=True).order_by('folio')
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumPishoy, self).get_context_data(**kwargs)		 
@@ -400,7 +435,10 @@ class ListaAlumnosDiscap(LoginRequiredMixin,GroupRequiredMixin,ListView): # Disc
 	 
 
 	def get_queryset(self):	
-		return super(ListaAlumnosDiscap,self).get_queryset().filter(atencion='Psicologia',ciclo__status=True).exclude(discapacidad='No').order_by('folio')
+		if self.request.user.is_superuser:
+			return super(ListaAlumnosDiscap,self).get_queryset().filter(atencion='Psicologia',ciclo__status=True).exclude(discapacidad='No').order_by('folio')
+		else:
+			return super(ListaAlumnosDiscap,self).get_queryset().filter(user=self.request.user,atencion='Psicologia',ciclo__status=True).exclude(discapacidad='No').order_by('folio')
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumnosDiscap, self).get_context_data(**kwargs)		 
@@ -414,7 +452,10 @@ class ListaAlumnosPrimap(LoginRequiredMixin,GroupRequiredMixin,ListView): # Prim
 	group_required = ['pisi','super']
 
 	def get_queryset(self):	
-		return super(ListaAlumnosPrimap,self).get_queryset().filter(escolaridad='Primaria',atencion='Psicologia',ciclo__status=True).order_by('folio')
+		if self.request.user.is_superuser:
+			return super(ListaAlumnosPrimap,self).get_queryset().filter(escolaridad='Primaria',atencion='Psicologia',ciclo__status=True).order_by('folio')
+		else:
+			return super(ListaAlumnosPrimap,self).get_queryset().filter(user=self.request.user,escolaridad='Primaria',atencion='Psicologia',ciclo__status=True).order_by('folio')
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumnosPrimap, self).get_context_data(**kwargs)	 
@@ -426,10 +467,12 @@ class ListaAlumnosPreep(LoginRequiredMixin,GroupRequiredMixin,ListView): # Presc
 	template_name = 'principal/alumnosxx.html'
 	model = Alumno
 	group_required = ['pisi','super']
-
 	 
 	def get_queryset(self):	
-		return super(ListaAlumnosPreep,self).get_queryset().filter(escolaridad='Preescolar',atencion='Psicologia',ciclo__status=True).order_by('folio') 
+		if self.request.user.is_superuser:
+			return super(ListaAlumnosPreep,self).get_queryset().filter(escolaridad='Preescolar',atencion='Psicologia',ciclo__status=True).order_by('folio') 
+		else:
+			return super(ListaAlumnosPreep,self).get_queryset().filter(user=self.request.user,escolaridad='Preescolar',atencion='Psicologia',ciclo__status=True).order_by('folio') 
 
 	def get_context_data(self, **kwargs): #para saber si  ya  existe el alumo para la foto
 		context = super(ListaAlumnosPreep, self).get_context_data(**kwargs)		 
@@ -443,7 +486,10 @@ class ListaAlumnosSecp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Secund
 	group_required = ['pisi','super']	 
 
 	def get_queryset(self):	
-		return super(ListaAlumnosSecp,self).get_queryset().filter(escolaridad='Secundaria',atencion='Psicologia',ciclo__status=True).order_by('folio')
+		if self.request.user.is_superuser:
+			return super(ListaAlumnosSecp,self).get_queryset().filter(escolaridad='Secundaria',atencion='Psicologia',ciclo__status=True).order_by('folio')
+		else:
+			return super(ListaAlumnosSecp,self).get_queryset().filter(user=self.request.user,escolaridad='Secundaria',atencion='Psicologia',ciclo__status=True).order_by('folio')
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumnosSecp, self).get_context_data(**kwargs)		 
@@ -457,7 +503,10 @@ class ListaAlumNoestytiedadp(LoginRequiredMixin,GroupRequiredMixin,ListView): # 
 	group_required = ['pisi','super']
 
 	def get_queryset(self):	
-		return super(ListaAlumNoestytiedadp,self).get_queryset().filter(escolaridad='No Estudia y tiene edad escolar',atencion='Psicologia',ciclo__status=True).order_by('folio')
+		if self.request.user.is_superuser:
+			return super(ListaAlumNoestytiedadp,self).get_queryset().filter(escolaridad='No Estudia y tiene edad escolar',atencion='Psicologia',ciclo__status=True).order_by('folio')
+		else:
+			return super(ListaAlumNoestytiedadp,self).get_queryset().filter(user=self.request.user,escolaridad='No Estudia y tiene edad escolar',atencion='Psicologia',ciclo__status=True).order_by('folio')			
 
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumNoestytiedadp, self).get_context_data(**kwargs)		 
@@ -472,8 +521,11 @@ class ListaAlumbachp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Bachille
 	group_required = ['pisi','super']
 
 	def get_queryset(self):	
-		return super(ListaAlumbachp,self).get_queryset().filter(escolaridad='Bachillerato',atencion='Psicologia',ciclo__status=True).order_by('folio')
-
+		if self.request.user.is_superuser:
+			return super(ListaAlumbachp,self).get_queryset().filter(escolaridad='Bachillerato',atencion='Psicologia',ciclo__status=True).order_by('folio')
+		else:
+			return super(ListaAlumbachp,self).get_queryset().filter(user=self.request.user,escolaridad='Bachillerato',atencion='Psicologia',ciclo__status=True).order_by('folio')
+	
 	def get_context_data(self, **kwargs):  
 		context = super(ListaAlumbachp, self).get_context_data(**kwargs)		 
 		context['hospital'] = "Concentrado de Alumnos Bachillerato, atendido por psicología"		 
@@ -485,9 +537,12 @@ class ListaSinEdadp(LoginRequiredMixin,GroupRequiredMixin,ListView): # Sin Edad 
 	model = Alumno
 	group_required = ['pisi','super']
 
-	def get_queryset(self):	
-		return super(ListaSinEdadp,self).get_queryset().filter(escolaridad='No Tiene Edad escolar',atencion='Psicologia',ciclo__status=True).order_by('folio') 
-
+	def get_queryset(self):
+		if self.request.user.is_superuser:	
+			return super(ListaSinEdadp,self).get_queryset().filter(escolaridad='No Tiene Edad escolar',atencion='Psicologia',ciclo__status=True).order_by('folio') 
+		else:
+			return super(ListaSinEdadp,self).get_queryset().filter(user=self.request.user,escolaridad='No Tiene Edad escolar',atencion='Psicologia',ciclo__status=True).order_by('folio') 			
+			
 	def get_context_data(self, **kwargs):  
 		context = super(ListaSinEdadp, self).get_context_data(**kwargs)		 
 		context['hospital'] = "Concentrado de Alumnos No Tiene Edad escolar, atendido por psicología"		 
@@ -529,3 +584,23 @@ class SerchAlumnoView(LoginRequiredMixin,GroupRequiredMixin,ListView):
 		        Q(nombre__icontains=q) 
 		    )		
 		return queryset
+
+
+class ListDuplicados(ListView):
+	context_object_name = 'alumnos'
+	template_name = 'principal/duplicados.html'
+	model = Alumno
+
+#context['disc_l'] = Alumno.objects.filter(hospital=2,ciclo__status=True).exclude(discapacidad='No').count()
+
+	def get_queryset(self):
+		return super(ListDuplicados,self).get_queryset().filter(ciclo__status=True).exclude(
+	escolaridad__icontains='No Tiene Edad escolar').filter(ciclo__status=True).exclude(escolaridad__icontains = 'No Estudia y tiene edad escolar'
+	).values('hospital__nombre',
+	'nombre').annotate(total=Count('nombre')).order_by('nombre')#.filter(total__gt=1) 
+	
+	def get_context_data(self, **kwargs):
+		context = super(ListDuplicados,self).get_context_data(**kwargs)
+		context['dobles'] = Alumno.objects.all().values('nombre').annotate(total=Count('nombre')).order_by('nombre') #.filter(total__gt=1) 
+		#print context['dobles']
+		return context
