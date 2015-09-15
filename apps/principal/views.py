@@ -2,15 +2,13 @@
 from django.views.generic import  TemplateView,FormView,ListView,UpdateView,CreateView
 from braces.views import LoginRequiredMixin,GroupRequiredMixin
 from .models import Alumno,Cicloescolar,Hospital
-from .forms  import AddAlumnoForm,myform
-from django.shortcuts import get_object_or_404 
+from .forms  import AddAlumnoForm 
 from django.db.models import Count
 
 from datetime import date 
 from django.db.models import Q
 from django.core.urlresolvers import reverse_lazy
-from django.db import connection
-
+ 
  
 
 class IndexView(TemplateView):
@@ -60,25 +58,29 @@ class IndexView(TemplateView):
 		context['bach_p'] = Alumno.objects.filter(escolaridad='Bachillerato',atencion='Psicologia',ciclo__status=True).count()
 		context['sinedadesc_p'] = Alumno.objects.filter(escolaridad='No Tiene Edad escolar',atencion='Psicologia',ciclo__status=True).count()
 	
+
 		# Graficas 
 		context['productividad'] = Alumno.objects.filter(ciclo__status=True,).exclude(
 			escolaridad__icontains='No Tiene Edad escolar').filter(ciclo__status=True).exclude(escolaridad__icontains = 'No Estudia y tiene edad escolar'
 			).values('user__username').annotate(total=Count('nombre',distinct=True)).order_by('-total')
 		
    
-		#atencion por nivel todo el ciclo 
-		q =  Alumno.objects.values('escolaridad').annotate(
-			total=Count('escolaridad')).order_by('escolaridad').values('escolaridad','total')
+   		q =  Alumno.objects.filter(ciclo__status=True).exclude(
+   			atencion__icontains='Psicologia').values('escolaridad').annotate(total=Count('nombre',distinct=True)).order_by('-total')
 		context['itens'] = q
- 		#print context['itens']  		
 
+		#atencion por nivel todo el ciclo 
+		#q =  Alumno.objects.values('escolaridad').annotate(
+		#	total=Count('escolaridad')).order_by('escolaridad').values('escolaridad','total')
+		#context['itens'] = q
+ 		#print context['itens']  	
+ 		
  		context['hosp'] = Alumno.objects.filter(ciclo__status=True).exclude(
 			escolaridad__icontains='No Tiene Edad escolar').filter(ciclo__status=True).exclude(escolaridad__icontains = 'No Estudia y tiene edad escolar'
-			).values('hospital__nombre').annotate(
- 			total=Count('hospital__nombre')).order_by('-total')
+			).filter(ciclo__status=True).exclude(atencion__icontains='Psicologia').values('hospital__nombre').annotate(total=Count('nombre',distinct=True)).order_by('-total')
  		return context
- 		# Graficas Fin
-
+ 		 
+ 		 
  
 
 class AddAl(CreateView):
