@@ -458,24 +458,28 @@
 
         <div class="container eventos">  
             <div class="row contenedor-eventos">
-              {% for a  in alum3 %}
+              {% for a  in dona1 %}
                 <div class="col-sm-1 col-md-3">
-                    <div class="thumbnail">
+                   <!-- <div class="thumbnail">
                         <img src="#" alt="250x180">
-                        <div class="caption">
-                            <h4><a href="">Ultimos 3 alumos captrados</a></h4>
-                            <small class="date">{{a.nombre}}</small>
-                            <div class="place">
-                                <small class="place"> {{a.escuela}}</small> / 
-                            </div>
-                            <span class="views"> {{a.procedencia}}</span>
-                        </div>
-                    </div>
+                        <div class="caption">  
+                            <h4><a href="">Ultimos 3 alumos captrados</a></h4>-->
+                            <small class="date"> {{a.user__username}} : {{a.total}} </small>                             
+                            <span class="views"> </span>
+                            
+                       <!-- </div>
+                    </div> -->
                 </div>
              {% endfor %}                
             </div>
         </div>
+    
+    <div>   
+        {% for x in dd %}
+                <p>{{x.nombre}} -- {{x.user__username}} {{x.total}} --{{x.totmsta}}</p>
+        {% endfor %}
 
+    </div>
 
 
 	

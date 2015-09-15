@@ -1,5 +1,7 @@
+
 import tablib
 from django.db.models import Model
+from datetime import datetime
 from django.db.models.fields.files import FieldFile
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
@@ -12,7 +14,7 @@ def export_as_excel(modeladmin, request, queryset):
     response['Content-Disposition'] = 'attachment; filename=%s.xls' % unicode(opts).replace('.', '_')
     
     try:
-        field_names = ['folio','hospital__nombre','modalidad','atencion','nombre','edad','meses','sexo','coloniaal','callenumal','localidadal','discapacidad','grado','escolaridad','escuela','coloniaesc','direccionesc','localidadesc','especialidad','diagnostico','fechaatencion','horainicio','horafin','tema','observacion']
+        field_names = ['folio','hospital','modalidad','atencion','nombre','edad','meses','sexo','coloniaal','callenumal','localidadal','discapacidad','grado','escolaridad','escuela','coloniaesc','direccionesc','localidadesc','especialidad','diagnostico','fechaatencion','horainicio','horafin','tema','observacion','user']
         v_field_names = field_names
     except:
         field_names = [field.name for field in opts.fields]
@@ -30,15 +32,17 @@ def export_as_excel(modeladmin, request, queryset):
         for field in field_names:
             try:
                 uf = getattr(obj, field)()
-            except:
+            except TypeError:
                 try:
                     uf = getattr(obj, field)
                 except:
-                    uf = 'error obteniendo el dato'
+                    uf = ' error obteniendo el dato'
             if uf is None:
                 uf = ''
+            elif isinstance(uf, datetime):
+                uf = unicode(uf)
             elif isinstance(uf, Model):
-                uf = isinstance(uf)
+                uf = unicode(uf)
             elif isinstance(uf, FieldFile):
                 uf = uf.url
             acc.append(uf)

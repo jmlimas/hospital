@@ -9,6 +9,8 @@ from django.db.models import Count
 from datetime import date 
 from django.db.models import Q
 from django.core.urlresolvers import reverse_lazy
+from django.db import connection
+
  
 
 class IndexView(TemplateView):
@@ -59,23 +61,18 @@ class IndexView(TemplateView):
 		context['sinedadesc_p'] = Alumno.objects.filter(escolaridad='No Tiene Edad escolar',atencion='Psicologia',ciclo__status=True).count()
 	
 		# Graficas 
-		#context['productividad'] = Alumno.objects.all().values('user__username').annotate(
-		#	total=Count('user__username')).order_by('-total')
-
-		context['productividad'] = Alumno.objects.all().filter(ciclo__status=True).exclude(
+		context['productividad'] = Alumno.objects.filter(ciclo__status=True,).exclude(
 			escolaridad__icontains='No Tiene Edad escolar').filter(ciclo__status=True).exclude(escolaridad__icontains = 'No Estudia y tiene edad escolar'
-			).values('user__username').annotate(
-			total=Count('user__username')).order_by('-total')
-		 
-		#context['dobles'] = Alumno.objects.all().values('nombre').annotate(total=Count('nombre')).order_by() 
-		 
+			).values('user__username').annotate(total=Count('nombre',distinct=True)).order_by('-total')
+		
+   
 		#atencion por nivel todo el ciclo 
 		q =  Alumno.objects.values('escolaridad').annotate(
 			total=Count('escolaridad')).order_by('escolaridad').values('escolaridad','total')
 		context['itens'] = q
  		#print context['itens']  		
 
- 		context['hosp'] = Alumno.objects.all().filter(ciclo__status=True).exclude(
+ 		context['hosp'] = Alumno.objects.filter(ciclo__status=True).exclude(
 			escolaridad__icontains='No Tiene Edad escolar').filter(ciclo__status=True).exclude(escolaridad__icontains = 'No Estudia y tiene edad escolar'
 			).values('hospital__nombre').annotate(
  			total=Count('hospital__nombre')).order_by('-total')
@@ -106,6 +103,7 @@ class AddAlumnoViews(LoginRequiredMixin,FormView):
 
 	def form_valid(self, form, *args, **kwargs): 
  		xfolio =  Alumno.objects.count()+1
+
  		xciclo = Cicloescolar.objects.get(status=True)
  		form.instance.ciclo = xciclo 
 		form.instance.folio = xfolio
@@ -152,7 +150,7 @@ class ListDuplicados(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ListDuplicados,self).get_context_data(**kwargs)
 		context['dobles'] = Alumno.objects.all().values('nombre').annotate(total=Count('nombre')).order_by('nombre') #.filter(total__gt=1) 
-		print context['dobles']
+		#print context['dobles']
 		return context
 
 class ListAlumnoshoyL(LoginRequiredMixin,GroupRequiredMixin,ListView):

@@ -5,7 +5,7 @@ from django.conf import settings
 
 
 class TimeStampModel(models.Model):
-    user     = models.ForeignKey(settings.AUTH_USER_MODEL,null=True,blank=True)
+    user     = models.ForeignKey(settings.AUTH_USER_MODEL,db_index=True,null=True,blank=True)
     #user     = models.ForeignKey(User)
     fecha    = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True) 
@@ -86,12 +86,12 @@ class Alumno(TimeStampModel):
             ('Psicologia','Psicologia'),
         )
 
-    folio = models.IntegerField()
+    folio = models.IntegerField(db_index=True)
     hospital = models.ForeignKey('Hospital') 
     atencion = models.CharField(max_length=10,null=True,blank=True,choices=at)  
     ciclo = models.ForeignKey('Cicloescolar',default=1)
     modalidad = models.CharField(max_length=25,null=True,default=True,choices=tp)
-    nombre = models.CharField(max_length=180)
+    nombre = models.CharField(max_length=180,db_index=True)
     edad = models.IntegerField()
     meses = models.IntegerField()
     sexo = models.CharField(max_length=1,choices=Opsexo)
