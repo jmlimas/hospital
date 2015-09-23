@@ -105,7 +105,7 @@ DATABASES = {
         'PASSWORD': 'wKCGpKxVlpJ6VprXEJwfDFKwxA',
         'HOST': 'ec2-54-227-255-240.compute-1.amazonaws.com',
         'PORT': '5432',
-    }
+   }
 }
 
 # Internationalization

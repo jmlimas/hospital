@@ -3,8 +3,9 @@ from django.views.generic import  TemplateView,FormView,ListView,UpdateView,Crea
 from braces.views import LoginRequiredMixin,GroupRequiredMixin
 from .models import Alumno,Cicloescolar,Hospital
 from .forms  import AddAlumnoForm 
-from django.db.models import Count
+from django.db.models import Count,Min 
 
+from django.db import connection
 from datetime import date 
 from django.db.models import Q
 from django.core.urlresolvers import reverse_lazy
@@ -58,13 +59,52 @@ class IndexView(TemplateView):
 		context['bach_p'] = Alumno.objects.filter(escolaridad='Bachillerato',atencion='Psicologia',ciclo__status=True).count()
 		context['sinedadesc_p'] = Alumno.objects.filter(escolaridad='No Tiene Edad escolar',atencion='Psicologia',ciclo__status=True).count()
 	
+         
 
 		# Graficas 
+		#context['dd'] = Alumno.objects.values_list('nombre').order_by('nombre','id').distinct('nombre') ## quita los nombres duplicados
+		#context['dd'] = Alumno.objects.order_by('nombre','id').distinct('nombre')  ##quita los duplicados
+
+		#context['ddz'] = (Alumno.objects.filter(ciclo__status=True).values('nombre').annotate(id = Min('id')).order_by('nombre', 'id')) # quita nombres duplicados optiene el menor id  pero presenta una lista
+
+		#context['dd'] = Alumno.objects.filter(ciclo__status=True).order_by('nombre', 'id').distinct('nombre') ## Este es el bueno esta es la base
+		#print context['dd']
+		 
+			
+		#cursor.execute('select user_id,count(user_id) FROM public.principal_alumno group  by user_id'),
+		#xx = Alumno.objects.raw('select id,user_id as Maestra,count(user_id) as total FROM public.principal_alumno group  by id,user_id')
+ 		cursor = connection.cursor()
+		 
+		 		 
+ 		wf = ('No Estudia y tiene edad escolar','No Tiene Edad escolar')
+ 		cursor.execute("SELECT  DISTINCT ON (a.nombre)  b.username as user__username ,count(a.id) as total INTO tmp \
+		FROM principal_alumno a \
+  		join users_user b ON  a.user_id = b.id \
+  		join principal_cicloescolar c ON c.id = a.ciclo_id \
+ 		WHERE c.status=true and a.escolaridad not in %s \
+ 		group by b.username,a.id",[wf])   
+
+ 		cursor.execute("Select a.user__username,count(a.total) as total from tmp a group by user__username order by total desc")
+		columns = [column[0] for column in cursor.description]
+		results = []
+		for row in cursor.fetchall():
+			results.append(dict(zip(columns,row)))
+
+		context['productividad'] = results
+		cursor.execute("drop table tmp");
+		cursor.close() 
+		
+  
+ 
+
+		''' 
 		context['productividad'] = Alumno.objects.filter(ciclo__status=True,).exclude(
 			escolaridad__icontains='No Tiene Edad escolar').filter(ciclo__status=True).exclude(escolaridad__icontains = 'No Estudia y tiene edad escolar'
 			).values('user__username').annotate(total=Count('nombre',distinct=True)).order_by('-total')
-		
-   
+
+		print context['productividad'] 
+		''' 
+    
    		q =  Alumno.objects.filter(ciclo__status=True).exclude(
    			atencion__icontains='Psicologia').values('escolaridad').annotate(total=Count('nombre',distinct=True)).order_by('-total')
 		context['itens'] = q
@@ -77,7 +117,8 @@ class IndexView(TemplateView):
  		
  		context['hosp'] = Alumno.objects.filter(ciclo__status=True).exclude(
 			escolaridad__icontains='No Tiene Edad escolar').filter(ciclo__status=True).exclude(escolaridad__icontains = 'No Estudia y tiene edad escolar'
-			).filter(ciclo__status=True).exclude(atencion__icontains='Psicologia').values('hospital__nombre').annotate(total=Count('nombre',distinct=True)).order_by('-total')
+			).filter(ciclo__status=True).exclude(atencion='Psicologia').filter(ciclo__status=True
+			).values('hospital__nombre').annotate(total=Count('nombre',distinct=True)).order_by('-total')
  		return context
  		 
  		 
@@ -606,3 +647,4 @@ class ListDuplicados(ListView):
 		context['dobles'] = Alumno.objects.all().values('nombre').annotate(total=Count('nombre')).order_by('nombre') #.filter(total__gt=1) 
 		#print context['dobles']
 		return context
+ 

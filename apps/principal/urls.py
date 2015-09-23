@@ -37,8 +37,7 @@ urlpatterns = [
 
 
     url(r'^lisdobles/$',views.ListDuplicados.as_view(),name='list_duplicados'),
-   
-
+ 
     url(r'^add/$', views.AddAl.as_view(),name='xx'),
     
     
