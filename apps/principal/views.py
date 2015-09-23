@@ -75,7 +75,7 @@ class IndexView(TemplateView):
 		#xx = Alumno.objects.raw('select id,user_id as Maestra,count(user_id) as total FROM public.principal_alumno group  by id,user_id')
  		cursor = connection.cursor()
 		 
-		 		 
+		''' 		 
  		wf = ('No Estudia y tiene edad escolar','No Tiene Edad escolar')
  		cursor.execute("SELECT  DISTINCT ON (a.nombre)  b.username as user__username ,count(a.id) as total INTO tmp \
 		FROM principal_alumno a \
@@ -83,8 +83,17 @@ class IndexView(TemplateView):
   		join principal_cicloescolar c ON c.id = a.ciclo_id \
  		WHERE c.status=true and a.escolaridad not in %s \
  		group by b.username,a.id",[wf])   
+		'''
+		wf = ('No Estudia y tiene edad escolar','No Tiene Edad escolar')
+		cursor.execute("SELECT DISTINCT ON (a.nombre)  b.username,a.id,a.nombre into tmp \
+		FROM principal_alumno a  \
+		join users_user b ON  a.user_id = b.id \
+		join principal_cicloescolar c ON c.id = a.ciclo_id \
+		WHERE c.status=true and a.escolaridad not in  %s \
+		order by a.nombre,a.id",[wf])
 
- 		cursor.execute("Select a.user__username,count(a.total) as total from tmp a group by user__username order by total desc")
+
+ 		cursor.execute("Select a.username as user__username,count(a.id) as total from tmp a group by user__username order by total desc")
 		columns = [column[0] for column in cursor.description]
 		results = []
 		for row in cursor.fetchall():

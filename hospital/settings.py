@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'hospital.wsgi.application'
 #        'NAME': 'parepas',
 #        'USER': 'parepas',
 #        'PASSWORD': 'chapis',
-#        'HOST': 'localhost',
+#       'HOST': 'localhost',
 #        'PORT': '5432',
 #    }
 #}
