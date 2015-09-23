@@ -67,43 +67,53 @@ class IndexView(TemplateView):
 
 		#context['ddz'] = (Alumno.objects.filter(ciclo__status=True).values('nombre').annotate(id = Min('id')).order_by('nombre', 'id')) # quita nombres duplicados optiene el menor id  pero presenta una lista
 
-		#context['dd'] = Alumno.objects.filter(ciclo__status=True).order_by('nombre', 'id').distinct('nombre') ## Este es el bueno esta es la base
-		#print context['dd']
-		 
+		#context['dd'] = Alumno.objects.filter(ciclo__status=True,atencion='Pedagogia').order_by('nombre', 'id').distinct('nombre') ## Este es el bueno esta es la base
+		#print context['dd']		 
 			
 		#cursor.execute('select user_id,count(user_id) FROM public.principal_alumno group  by user_id'),
 		#xx = Alumno.objects.raw('select id,user_id as Maestra,count(user_id) as total FROM public.principal_alumno group  by id,user_id')
  		cursor = connection.cursor()
 		 
-		''' 		 
- 		wf = ('No Estudia y tiene edad escolar','No Tiene Edad escolar')
- 		cursor.execute("SELECT  DISTINCT ON (a.nombre)  b.username as user__username ,count(a.id) as total INTO tmp \
-		FROM principal_alumno a \
-  		join users_user b ON  a.user_id = b.id \
-  		join principal_cicloescolar c ON c.id = a.ciclo_id \
- 		WHERE c.status=true and a.escolaridad not in %s \
- 		group by b.username,a.id",[wf])   
-		'''
+		 #### Procesa los alumnos atenididos  por Maestras y alunos  no deuplicados  y  selecciona el 
+		 #### Primer alumno atenido por la  maestra es decir el id mas viejo o chioco o minimo
 		wf = ('No Estudia y tiene edad escolar','No Tiene Edad escolar')
-		cursor.execute("SELECT DISTINCT ON (a.nombre)  b.username,a.id,a.nombre into tmp \
+		cursor.execute("SELECT DISTINCT ON (a.nombre)  b.username,a.id,a.nombre into ped \
 		FROM principal_alumno a  \
 		join users_user b ON  a.user_id = b.id \
 		join principal_cicloescolar c ON c.id = a.ciclo_id \
-		WHERE c.status=true and a.escolaridad not in  %s \
+		WHERE atencion='Pedagogia' and c.status=true and a.escolaridad not in  %s \
 		order by a.nombre,a.id",[wf])
 
 
- 		cursor.execute("Select a.username as user__username,count(a.id) as total from tmp a group by user__username order by total desc")
+ 		cursor.execute("Select a.username as user__username,count(a.id) as total from ped a group by user__username order by total desc")
 		columns = [column[0] for column in cursor.description]
-		results = []
+		res_ped  = []
 		for row in cursor.fetchall():
-			results.append(dict(zip(columns,row)))
+			res_ped.append(dict(zip(columns,row)))			
+			# abajo en la  linia 112 los junta el resultado de la Maestra con el de la psicologa y lo agrega el context['productividad']
 
-		context['productividad'] = results
-		cursor.execute("drop table tmp");
+ 		#### Procesa los alumnos atenididos por Psicologia y alunos  no deuplicados  y  selecciona el 
+		#### Primer alumno atenido por la  Psicologia es decir el id mas viejo o chioco o minimo
+		wf = ('No Estudia y tiene edad escolar','No Tiene Edad escolar')
+		cursor.execute("SELECT DISTINCT ON (a.nombre)  b.username,a.id,a.nombre into Pis \
+		FROM principal_alumno a  \
+		join users_user b ON  a.user_id = b.id \
+		join principal_cicloescolar c ON c.id = a.ciclo_id \
+		WHERE atencion ='Psicologia' and c.status=true and a.escolaridad not in  %s \
+		order by a.nombre,a.id",[wf])
+
+
+ 		cursor.execute("Select a.username as user__username,count(a.id) as total from Pis a group by user__username order by total desc")
+		columns = [column[0] for column in cursor.description]
+		res_psic = []
+		for row in cursor.fetchall():
+			res_psic.append(dict(zip(columns,row)))			
+
+		context['productividad'] = res_ped+res_psic
+		cursor.execute("drop table ped");
+		cursor.execute("drop table Pis");
 		cursor.close() 
-		
-  
+		 
  
 
 		''' 
