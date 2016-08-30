@@ -1,0 +1,89 @@
+#ok, en el popup pongo este codigo 
+<form class="taskForm form-horizontal" role="form">
+    <input type="hidden" id="max_percentage" value="{{config.MAX_GRADE_EQUIVALENCE}}"/>
+	<div class="form-group">
+		<label class="col-sm-3 control-label" for="task_name">{% trans "Name" %}:</label>
+		<div class="col-sm-9">
+			<input class="form-control" type="text" id="task_name" placeholder='{% trans "Name" %}' {% if task %} value="{{ task.name }}"{% endif %}/>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label" for="task_description">{% trans "Description" %}:</label>
+		<div class="col-sm-9">
+			<textarea class="form-control" id="task_description" placeholder='{% trans "Description" %}'>{% if task %}{{ task.description }}{% endif %}</textarea>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label" for="task_percentage">{% trans "Approbation grade" %}:</label>
+		<div class="col-sm-9">
+			<input class="form-control" type="text" id="task_percentage" maxlength="4" placeholder='{% trans "Approbation grade" %}' {% if task %} value="{{ task.convert_percentage }}"{% endif %}/>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label" for="task_editable">{% trans "Allow replacement task" %}:</label>
+		<div class="col-sm-9">
+			<input type="checkbox" id="task_editable" value="true">
+		</div>
+	</div>
+</form>
+
+//// en el js pongo esto///
+
+$('.editTask').click(function(event) {
+		var task_id = $(this).attr("task");
+		var module_id = $(this).attr("module");
+		
+		taskModal = bombModal(null, {
+			ajax: homeURL + "lms/courses/task/" + task_id + "/open_popup_task/",
+			title: "Editar tarea",
+			answers: {
+								"Guardar": function(response,theDiv){
+								var task = new Task();
+								task.id = task_id
+								task.name = theDiv.find("#task_name").val();
+								task.description = theDiv.find("#task_description").val();
+								task.percentage = parseInt(theDiv.find("#task_percentage").val());
+								max_percentage = parseInt(theDiv.find("#max_percentage").val());
+                                if ((max_percentage > 0) && task.percentage > max_percentage){     
+                                    alert("No puede escribir un porcentaje mayor a " + max_percentage);
+                                    return false;
+                                }
+                                else{
+								    task.editable = theDiv.find('#task_editable').val();
+								    task.module_id = module_id;
+								    saveTask(task);
+								    return false;
+                                }
+
+							}
+				}
+		});
+	});
+
+task_name = request.POST.get("task_name", None)
+    task_percentage = request.POST.get("task_percentage", None)
+    task_description = request.POST.get("task_description", None)
+    task_module_id = request.POST.get("module_id", None)
+    task_editable = request.POST.get('task_editable', None)
+
+
+
+def popup_manage_course(request, course_id=None):
+    t = Course.objects.get(pk=course_id)
+    if t.versioncourse.version_type == 'group':
+        s = GroupAdvancedForm(instance=t)
+    else:
+        s = CourseAdvancedForm(instance=t)
+    variables = RequestContext(request, {
+        "course" : t,
+        "courseForm": s,
+        "vcourse": t.versioncourse,
+        "app_name": APP_NAME,
+    })
+
+    return render_to_response("quest/lms/popup_manage_course.html", variables)
+
+   <form class="form-horizontal well" data-async data-target="#myModal" action="thanks/" method="POST">
+              
+   <form class="form-horizontal well" data-async data-target="#myModal" action="index/" method="POST"> 
+   <form class="form-horizontal well" data-async data-target="#myModal" action="index/" method="POST">  

@@ -14,7 +14,8 @@ def export_as_excel(modeladmin, request, queryset):
     response['Content-Disposition'] = 'attachment; filename=%s.xls' % unicode(opts).replace('.', '_')
     
     try:
-        field_names = ['folio','hospital','modalidad','atencion','nombre','edad','meses','sexo','coloniaal','callenumal','localidadal','discapacidad','grado','escolaridad','escuela','coloniaesc','direccionesc','localidadesc','especialidad','diagnostico','fechaatencion','horainicio','horafin','tema','observacion','user']
+       # field_names = ['id','hospital','modalidad','atencion','alumno','edad','meses','sexo','coloniaal','callenumal','localidadal','discapacidad','grado','escolaridad','escuela','coloniaesc','direccionesc','localidadesc','especialidad','diagnostico','fechaatencion','horainicio','horafin','tema','observacion','user']
+        field_names = ['id','hospital','modalidad','atencion','alumno','alumno__sexo','user']        
         v_field_names = field_names
     except:
         field_names = [field.name for field in opts.fields]

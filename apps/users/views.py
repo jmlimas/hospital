@@ -1,9 +1,38 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, redirect
-from django.contrib.auth import logout
+from django.shortcuts import render, redirect,render_to_response,HttpResponseRedirect
+from django.template import RequestContext
 from .forms import UserRegisterForm, LoginForm
+from django.contrib.auth import login, authenticate, logout
 from .models import User
 from .functions import LogIn
+from django.contrib.auth.forms import AuthenticationForm 
+ 
+
+
+def inicio(request):
+	if request.user.is_authenticated():
+		return render_to_response('principal/index.html', context_instance=RequestContext(request))
+		
+	else:
+	    if request.method == 'POST':
+	    	formulario = AuthenticationForm()
+	    	print formulario
+	    	if formulario.is_valid:
+		        usuario = request.POST['username']
+		        clave = request.POST['password']
+		        acceso = authenticate(username=usuario, password=clave)
+		        if acceso is not None:
+		        	if acceso.is_active:
+		        		login(request, acceso)
+		        		return HttpResponseRedirect('/')
+		        	else:
+		        		return render_to_response('noactivo.html', context_instance=RequestContext(request))
+		        else:
+		        	return render_to_response('nousuario.html', context_instance=RequestContext(request))
+	    else:
+	        formulario = AuthenticationForm()
+	    return render_to_response('principal/login.html',{'formulario':formulario}, context_instance=RequestContext(request))
+
 
 def userlogin(request):
 	if request.method == "POST":

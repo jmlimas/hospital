@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.db import models 
 from django.conf import settings
- 
+
+from datetime import date,datetime
+import datetime 
+
+
 
 
 class TimeStampModel(models.Model):
     user     = models.ForeignKey(settings.AUTH_USER_MODEL,db_index=True,null=True,blank=True)
-    #user     = models.ForeignKey(User)
     fecha    = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True) 
 
@@ -27,8 +30,7 @@ class Cicloescolar(TimeStampModel):
 class Hospital(TimeStampModel):
     nombre = models.CharField(max_length=60)
     usuarios = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name= 'hospital_user')
-   # usuarios = models.ManyToManyField(User,related_name= 'hospital_user')
-    
+       
     def __unicode__(self):
         return self.nombre
 
@@ -39,42 +41,71 @@ class Hospital(TimeStampModel):
         ordering = ["pk"]
 
 
-
-
-# Create your models here.
-class Alumno(TimeStampModel):
-    
-    Opsexo = (
-        ('H', 'Hombre'),
-        ('M', 'Mujer'),
+class Escuela(TimeStampModel):
+    OPturno = (
+        ('TV', 'Turno Vespertino'),
+        ('TM', 'Turno Matutino'),
         )
 
-    Op2 = (
-        ('Si', 'Si'),
-        ('No', 'No'),
-        )
+    nombre = models.CharField(max_length=180)
+    colonia = models.CharField(max_length=180)
+    direccion = models.CharField(max_length=120, null=True, blank=True)
+    localidad = models.CharField(max_length=100)
+    turno = models.CharField(max_length=2, null=True, blank=True,choices=OPturno)
 
-    opesc=(
-        ('Preescolar','Preescolar'),
-        ('Primaria' ,'Primaria'),
-        ('Secundaria','Secundaria'),
-        ('No Estudia y tiene edad escolar',  'No Estudia y tiene edad escolar'),      
-        ('Bachillerato', 'Bachillerato'),
-        ('No Tiene Edad escolar',  'No Tiene Edad escolar'),
-        ('Cam', 'Cam'),
-        ('Cil', 'Cil'),
+    def __unicode__(self):
+        return self.nombre
+
+    def seave(self, force_insert=False, force_update=False):
+        self.nombre = self.nombre.lower()
+        super(Escuela, self).save(force_insert, force_update)
 
 
-        )
-    Disca=(
-        ('No', 'No'),
-        ('Motriz','Motriz'),
-        ('Visual', 'Visual'),
-        ('Auditiva', 'Auditiva'),
-        ('Intelectual', 'Intelectual'),
-        ('Otra', 'Otra'),
-        )
+ 
+class Alumno(models.Model):
+  
+    nombre = models.CharField(max_length=180,db_index=True) #   
+    sexo = models.CharField(max_length=1, null=True, blank=True) #
+    colonia = models.CharField(max_length=100,null=True, blank=True) #
+    callenum = models.CharField(max_length=100,null=True, blank=True) #
+    localidad = models.CharField(max_length=80,null=True, blank=True) #
+    discapacidad = models.CharField(max_length=12,null=True, blank=True) #
+    escolaridad = models.CharField(max_length=40,null=True, blank=True) #
+    fechanaciomiento = models.DateField()
+  
+     
+    def __unicode__(self):
+        return self.nombre
+ 
+    def edad(self):
+        import datetime
+        today = datetime.date.today()
+        #return  ((today.year - self.fechanaciomiento.year-1)+(1 if(today.month, today.day)>=(self.fechanaciomiento.month, self.fechanaciomiento.day) else 0))
+        return today.year - self.fechanaciomiento.year + (today.month-self.fechanaciomiento.month)/12
 
+    def mes(self):
+        import datetime
+        today = datetime.date.today()
+        #today = datetime.date(2016, 10, 6)  # aqui  pongo a  fecha que se me da la gana no solo la  de  hoy
+        #return today.year - self.fechanaciomiento.year + (today.month-self.fechanaciomiento.month)/12,  (today.month-self.fechanaciomiento.month)%12 # año y mes
+        return (today.month-self.fechanaciomiento.month)%12  # solo Mes
+ 
+ 
+
+
+    #def save(self, force_insert=False, force_update=False):
+    #    self.nombre = self.nombre.lower()
+    #    super(Alumno, self).save(force_insert, force_update)
+
+    #def clean(self):
+    #    if self.nombre:
+    #        self.nombre = self.nombre.strip()
+
+
+
+ 
+class Atencion(TimeStampModel):
+      
     tp =(
             ('Pediatria','Pediatria'),
             ('ConsultaExt','Consulta Externa'),
@@ -86,57 +117,24 @@ class Alumno(TimeStampModel):
             ('Psicologia','Psicologia'),
         )
 
-    folio = models.IntegerField(db_index=True)
-    hospital = models.ForeignKey('Hospital') 
-    atencion = models.CharField(max_length=10,null=True,blank=True,choices=at)  
-    ciclo = models.ForeignKey('Cicloescolar',default=1)
+    hospital = models.ForeignKey('Hospital')  
+    alumno = models.ForeignKey('Alumno') 
+    ciclo = models.ForeignKey('Cicloescolar')
+    atencion = models.CharField(max_length=10,null=True,blank=True,choices=at)     
     modalidad = models.CharField(max_length=25,null=True,default=True,choices=tp)
-    nombre = models.CharField(max_length=180,db_index=True)
-    edad = models.IntegerField()
-    meses = models.IntegerField()
-    sexo = models.CharField(max_length=1,choices=Opsexo)
-    coloniaal = models.CharField(max_length=100)
-    callenumal = models.CharField(max_length=100)
-    localidadal = models.CharField(max_length=80)
-    discapacidad = models.CharField(max_length=12,choices=Disca)
-    grado = models.IntegerField()
-    escolaridad = models.CharField(max_length=40,choices=opesc)
-    escuela = models.CharField(max_length=100)
-    coloniaesc = models.CharField(max_length=80)
-    direccionesc = models.CharField(max_length=120, null=True,blank=True)
-    localidadesc = models.CharField(max_length=100)
+    edad = models.IntegerField(default=0) #
+    meses = models.IntegerField(default=0) #
+    grado = models.IntegerField(default=0) 
     especialidad = models.CharField(max_length=80)
     diagnostico = models.CharField(max_length=80)
     fechaatencion  = models.DateField()
-    horainicio = models.TimeField()
-    horafin = models.TimeField()   
-    tema = models.CharField(max_length=80)
-    observacion = models.TextField()
+    horainicio = models.TimeField(default=datetime.datetime.utcnow,null=True,blank=True)
+    horafin = models.TimeField(default=datetime.datetime.utcnow,null=True,blank=True)   
+    tema = models.CharField(max_length=80,default="xxx", null=True,blank=True)
+    observacion = models.TextField(default="xxx",null=True,blank=True)
+    
     
     def __unicode__(self):
-        return self.nombre   
+        return self.alumno.nombre   
 
-    def save(self, force_insert=False, force_update=False):
-        self.nombre = self.nombre.lower()
-        self.escuela = self.escuela.lower()
-        super(Alumno, self).save(force_insert, force_update)
-
-    def clean(self):
-        if self.nombre:
-            self.nombre = self.nombre.strip()
     
- 
-
-class Escuela(TimeStampModel):
-	nombre = models.CharField(max_length=180)
-	direccion = models.CharField(max_length=180)
-
-	def __unicode__(self):
-		return self.nombre
-
-
- 
-
-
-
-

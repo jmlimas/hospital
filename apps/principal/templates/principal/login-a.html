@@ -1,0 +1,33 @@
+{% extends "base_principal.html" %}
+    
+{% block content %}
+<h1>Parepas</h1>
+{% load static %}
+    
+ 
+
+  {% if user.is_authenticated %}
+        {% else %}
+        <form action="" id="formulario-login" method="POST">
+            {% csrf_token %}
+            <div class="inputs">
+                <label for="id_username">Nombre de usuario:</label>
+                <input id="id_username" type="text" name="username" maxlength="30" placeholder="Usuario">
+                <label for="id_password">Contraseña:</label>
+                <input type="password" name="password" id="id_password" placeholder="Contraseña">
+            </div>
+            <div class="boton">
+                <button type="submit">Ingresar</button>
+            </div>
+        </form>
+
+        {% endif %}
+
+<section>  
+            <img src="{% static 'img/uno.jpg' %}"/>
+            
+</section>    
+ 
+{% endblock content %}
+
+

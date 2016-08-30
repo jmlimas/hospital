@@ -26,14 +26,15 @@ BASE_DIR = Path(__file__).ancestor(2)
 SECRET_KEY = '#v2r)=$_kr36h7ue%rh@$*pju5j3uiug%o$63-%z3pe30&00i*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [ ]
 
 # Application definition
 
 INSTALLED_APPS = (
-    'suit',
+    #'grappelli',
+    'datetimewidget',    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,9 +56,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'django.middleware.locale.LocaleMiddleware',    
+    'django.middleware.locale.LocaleMiddleware',      
 )
 
+ 
 ROOT_URLCONF = 'hospital.urls'
 
 TEMPLATES = [
@@ -71,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django.core.context_processors.request",
             ],
         },
     },
@@ -85,28 +88,28 @@ WSGI_APPLICATION = 'hospital.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 # local
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME': 'parepas',
-#        'USER': 'parepas',
-#        'PASSWORD': 'chapis',
-#       'HOST': 'localhost',
-#        'PORT': '5432',
-#    }
-#}
-
-#Produccion
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dfdbn89kcura6d',
-        'USER': 'ivrzpgwevbgwbo',
-        'PASSWORD': 'wKCGpKxVlpJ6VprXEJwfDFKwxA',
-        'HOST': 'ec2-54-227-255-240.compute-1.amazonaws.com',
+        'NAME': 'parepas',
+        'USER': 'parepas',
+        'PASSWORD': 'chapis',
+        'HOST': 'localhost',
         'PORT': '5432',
-   }
+    }
 }
+
+#Produccion
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'dfdbn89kcura6d',
+#        'USER': 'ivrzpgwevbgwbo',
+#        'PASSWORD': 'wKCGpKxVlpJ6VprXEJwfDFKwxA',
+#        'HOST': 'ec2-54-227-255-240.compute-1.amazonaws.com',
+#       'PORT': '5432',
+#   }
+#}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -117,7 +120,8 @@ TIME_ZONE = 'America/Mexico_City'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
- 
+
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
@@ -127,16 +131,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.child('media')
 
-SUIT_CONFIG = {
-    'ADMIN_NAME': 'Parepe Laguna',
-    'SHOW_REQUIRED_ASTERISK': True,
-    'CONFIRM_UNSAVED_CHANGES': True,
-     'MENU_ICONS': {
-        'sites': 'icon-leaf',
-        'auth': 'icon-lock',
-    },
-     'LIST_PER_PAGE': 20
-}
+ 
 
 
 STATIC_ROOT = 'staticfiles'    

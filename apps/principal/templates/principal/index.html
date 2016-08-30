@@ -1,6 +1,7 @@
 {% extends "base_principal.html" %}
     
 {% block content %}
+
  <header class="app-header">
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
@@ -11,14 +12,29 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button> 
-                    <a class="navbar-brand"  href="{% url 'principal_app:index' %}">Parepe Laguna</a>
+                    <a class="navbar-brand"  href="#">Parepe Laguna</a>
                 </div>
+                
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configuracion 
+                      <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="/expatenciones">Enviar Atenciones a excel</a></li>
+                        <li><a href="/addalumno">Nuevo Alumno</a></li>
+                        <li><a href="/addaten">Nueva Atencion</a></li>
+                        <li><a href="/listgrado">Grado</a></li> 
+                      </ul>
+                  </li>  
 
+                                     </li>
+                  <li><a href="/contacto">Contactanos</a></li>               
+            </ul> <!--class="nav navbar-nav"-->
                          
                             <div class="collapse navbar-collapse">
                                 <ul class="nav navbar-nav pull-right">
                                     {% if user.is_authenticated %}                               
-                                        <li><a href="{% url 'principal_app:index' %}">Hola 
+                                        <li><a href="#">Hola 
                                             {{user.username|capfirst}}</a></li>
                                             <li><a href="{% url 'users_app:logout' %}">Cerrar</a></li>
                                     {% else %}                           
@@ -34,7 +50,7 @@
  
 <div class="jumbotron">
   <div class="container text-center">
-    <h1>Parepe Laguna</h1>
+    <h1>Parepe Laguna ver 2.0</h1>
   </div>
 </div>
 
